@@ -1,0 +1,428 @@
+
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 10:44:24 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// STL은 속도에 최적화된 라이브러리 입니다.
+// 이 말은 예외처리 따위는 하지 않는다는 의미입니다.
+// 예외처리가 필요하다면 그렇게 해주는 특별버전의 라이브러리나 함수를 사용해야 합니다.
+
+class Animal {
+public:
+	virtual void move() = 0;
+};
+
+class Dog : public Animal {
+public:
+	virtual void move() override final {
+		cout << "개 뛴다" << endl;
+	}
+};
+
+class Bird : public Animal {
+public:
+	virtual void move() override final {
+		cout << "새 난다" << endl;
+	}
+};
+
+void f(Animal& a) {
+	// 만일 a가 원래 개였다면 move()를 호출하라
+	Dog d;
+	try {	// 예외처리
+		d = dynamic_cast<Dog&>(a);
+		d.move();
+	}
+	catch (exception& e) { // 예외가 나올경우 처리
+		cout << e.what() << endl;
+	}
+}
+
+int main() {
+	Animal* a[3]{ new Dog, new Bird, new Dog };
+
+	for (Animal* d : a) {
+		f(*d);
+	}
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 10:52:20 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// HEAP 메모리를 할당할 수 없는 경우
+
+int main() {
+	int i = 1;
+	while (true) {
+		try {
+			new int[i];
+			cout << i++ << " ";
+		}
+		catch (exception& e) { // 예외가 나올경우 처리
+			cout << e.what() << endl;
+			break;
+		}
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 11:03:55 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// 호출가능 타입(Callable type)
+// 1. 함수
+// 2. 멤버함수
+// 3. 함수객체 : 함수호출연산자를( () ) 오버로딩한 클래스
+// 4. 람다
+// 5. function class
+// 6. bind
+
+class March {
+public:
+	void operator()() { 
+		cout << "함수호출 연산자가 불림" << endl;
+	}
+};
+
+int main() {
+	March a;
+	a();
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 11:06:40 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// 호출가능 타입(Callable type)
+// 1. 함수
+// 2. 멤버함수
+// 3. 함수객체 : 함수호출연산자를( () ) 오버로딩한 클래스
+// 4. 람다
+// 5. function class
+// 6. bind
+
+class March {
+public:
+	bool operator()(int a, int b) {
+		return a > b;
+	}
+};
+
+int main() {
+	int a[]{ 2,4,6,1,3,5 };
+	March m;
+	sort(begin(a), end(a), m);
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 11:08:59 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// 호출가능 타입(Callable type)
+// 1. 함수
+// 2. 멤버함수
+// 3. 함수객체 : 함수호출연산자를( () ) 오버로딩한 클래스
+// 4. 람다
+// 5. function class
+// 6. bind
+
+class March {
+public:
+	bool operator()(int a, int b) {
+		return a > b;
+	}
+};
+
+int main() {
+	int a[]{ 2,4,6,1,3,5 };
+	sort(begin(a), end(a), March());
+
+	for (int d : a)
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 11:12:43 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// 호출가능 타입(Callable type)
+// 1. 함수
+// 2. 멤버함수
+// 3. 함수객체 : 함수호출연산자를( () ) 오버로딩한 클래스
+// 4. 람다
+// 5. function class
+// 6. bind
+
+class March {
+public:
+	bool operator()(int a, int b) {
+		return a > b;
+	}
+};
+
+int main() {
+	int a[]{ 2,4,6,1,3,5 };
+	sort(begin(a), end(a), [](int a, int b) { return a < b; });
+
+	for (int d : a)
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 11:38:03 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 5장
+// pair<>, 스마트 포인터, type traits
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// 호출가능 타입(Callable type)
+// 1. 함수
+// 2. 멤버함수
+// 3. 함수객체 : 함수호출연산자를( () ) 오버로딩한 클래스
+// 4. 람다
+// 5. function class
+// 6. bind : 원래 함수의 인자 갯수 바꾼 새 함수를 만들어 준다.
+
+template<class T>
+void f(T fp) {
+	fp(3, 4);
+}
+int a(int, int) {
+	cout << "함수 a를 호출함" << endl;
+	return 10;
+}
+
+int main() {
+	f(a);
+
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 12:03:05 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 5장
+// pair<>, 스마트 포인터, type traits
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+//pair : 이종(heterogeneous)의 자료형을 하나로 묶어 사용할 수 있도록 한다.
+
+struct Point2D {
+	int x, y;
+};
+
+int main() {
+	// 이름과 현상금
+	pair<string, int> OnePiece[]{ {"루피", 400000000}, {"조로", 300000000}, {"초파", 100000000}, {"니코로빈", 200000000} };
+	for (pair<string, int> d : OnePiece) {
+		cout << "이름 : " << d.first << ", 현상금 : " << d.second << endl;
+	}
+	cout << "-----------------------------------" << endl;
+
+	//sort(begin(OnePiece), end(OnePiece), [](pair<string, int> a, pair<string, int> b) { // 복사하면 28바이트를 가져오니 복사하지말고 읽어오기
+	sort(begin(OnePiece), end(OnePiece), [](const pair<string, int>& a, const pair<string, int>& b) {
+		return a.first < b.first;
+	});
+	for (pair<string, int> d : OnePiece) {
+		cout << "이름 : " << d.first << ", 현상금 : " << d.second << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 28 12:17:56 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+
+// 2016년 03월 28일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 5장
+// pair<>, 스마트 포인터, type traits
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include<random>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+//pair : 이종(heterogeneous)의 자료형을 하나로 묶어 사용할 수 있도록 한다.
+
+int main() {
+	// pair<double, double> Point2D;
+	// 2차원 좌표 100개(-100 ~ 100사이 값)를 생성하자
+	// 원점에서 반경 10이내인 점들만 화면에 출력하라.
+
+	pair<double, double> Point2D[100];
+
+	// c++11 랜덤
+	// 난수생성 엔진과 난수확률분포를 사용하여 생성한다.
+	default_random_engine dre;	// 기본 엔진 사용
+	normal_distribution<> nd(0, 99);
+	uniform_int_distribution<>ui(-100, 100);	// 고르게 분포
+
+	for (auto& d : Point2D) {
+		d.first = ui(dre);
+		d.second = ui(dre);
+	}
+
+
+	for (auto& d : Point2D) {
+		double data = sqrt((d.first*d.first) + (d.second *d.second));
+		if (data < 10.0) {
+			cout << " x : " << d.first << ", y : " << d.second << endl;
+		}
+	}
+	save();
+}

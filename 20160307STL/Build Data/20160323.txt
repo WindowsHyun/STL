@@ -1,0 +1,169 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 23 10:41:03 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 23일
+// 5주 1일차 3월31일 퀴즈 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+//람다 : 이름없는 함수
+// 함수를 프로그래머가 호출할 일은 없지만
+// 함수의 기능(body)을 필요로 하는 곳에 사용함
+
+int main() {
+	auto f = []() { cout << "안녕 반가워 나는 람다야"; };
+
+	cout << typeid(f).raw_name() << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 23 10:59:03 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 23일
+// 5주 1일차 3월31일 퀴즈 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+//람다 : 이름없는 함수
+// 함수를 프로그래머가 호출할 일은 없지만
+// 함수의 기능(body)을 필요로 하는 곳에 사용함
+
+int f(int a, int b) {
+	return a < b;
+}
+
+class Happy {
+
+};
+
+int main() {
+	int a[]{ 1, 3, 5, 2, 4 };		// POD(Plain old Data) 바보 데이터 타입
+
+	sort(begin(a), end(a), [](int a, int b) -> bool {
+		return a < b;
+	});
+
+	for (auto d : a) {
+		cout << d << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 23 11:03:46 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 23일
+// 5주 1일차 3월31일 퀴즈 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+//람다 : 이름없는 함수
+// 함수를 프로그래머가 호출할 일은 없지만
+// 함수의 기능(body)을 필요로 하는 곳에 사용함
+
+int f(int a, int b) {
+	return a < b;
+}
+
+class Happy {
+public:
+	Happy(int) {}
+	operator int() {
+		return 333;
+	}
+};
+
+int main() {
+	vector <Happy> a{ 1, 3, 5, 2, 4 };		// POD(Plain old Data) 바보 데이터 타입
+
+	sort(a.begin(), a.end(), [](int a, int b) -> bool {
+		return a < b;
+	});
+
+	for (auto d : a) {
+		cout << d << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 23 12:18:23 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 23일
+// 5주 1일차 3월31일 퀴즈 예정
+//
+// 4장
+// namespace, (예외의 사용법), callable type
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+// STL은 속도에 최적화된 라이브러리 입니다.
+// 이 말은 예외처리 따위는 하지 않는다는 의미입니다.
+// 예외처리가 필요하다면 그렇게 해주는 특별버전의 라이브러리나 함수를 사용해야 합니다.
+
+class Animal {
+public:
+	virtual void move() = 0;
+};
+
+class Dog : public Animal {
+public:
+	virtual void move() override final {
+		cout << "개 뛴다" << endl;
+	}
+};
+
+class Bird : public Animal {
+public:
+	virtual void move() override final {
+		cout << "새 난다" << endl;
+	}
+};
+
+int main() {
+	Animal* a[3]{ new Dog, new Bird, new Dog };
+
+	for (Animal* d : a) {
+		// 개일때만 무브 함수를 부른다.
+		// 다운케스팅
+		if (dynamic_cast<Dog*>(d) != nullptr) {
+			d->move();
+		}
+
+	}
+
+	save();
+}

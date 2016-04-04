@@ -1,0 +1,176 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 30 10:50:19 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 30일
+//
+// 5장
+// pair<>, 스마트 포인터, type traits
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <utility> // pair 사용할때
+#include<random>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+//pair : 이종(heterogeneous)의 자료형을 하나로 묶어 사용할 수 있도록 한다.
+// 이름과 점수를 vector로 관리하고 싶다.
+// vector는 하나의 자료형(동종의 데이터 타입)을 담을 수 있는 동적 배열이다.
+// pair를 사용하면 이름과 점수를 하나의 자료형으로 만들 수 있어 벡터에도 담을수 있다.
+// pair은 여러 자료형을 묶어서 단일한 타입으로 보여준다.
+
+int main() {
+	// typedef pair<string, int> Score;
+	using Score = pair<string, int>;
+	vector<Score> v;
+	//vector<pair<string, int>> v;
+
+	v.push_back(make_pair("안돼", 700)); // 이렇게 작업하는것이 가장 편하다. (탬플릿 함수 make_pair)
+	v.push_back(make_pair<string, int>("몰라", 600));	//탬플릿은 명시적으로 입력해주는것이 좋다.
+	v.push_back(pair<string, int>("루피", 400));
+	v.push_back(pair<string, int>("쵸파", 100));
+
+	for (int i = 0; i < v.size(); ++i) {
+		cout << v[i].first << v[i].second << endl;
+	}
+
+	for (auto d : v) {
+		cout << d.first << d.second << endl;
+	}
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 30 11:00:11 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 30일
+//
+// 5장
+// pair<>, 스마트 포인터, type traits
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <utility> // pair 사용할때
+#include<random>
+#include <string>
+#include "save.h"
+
+using namespace std;
+
+//pair : 이종(heterogeneous)의 자료형을 하나로 묶어 사용할 수 있도록 한다.
+// 이름과 점수를 vector로 관리하고 싶다.
+// vector는 하나의 자료형(동종의 데이터 타입)을 담을 수 있는 동적 배열이다.
+// pair를 사용하면 이름과 점수를 하나의 자료형으로 만들 수 있어 벡터에도 담을수 있다.
+// pair은 여러 자료형을 묶어서 단일한 타입으로 보여준다.
+
+int main() {
+	//---------------------------------------------------------------------------------------
+	// typedef pair<string, int> Score;
+	using Score = pair<string, int>;
+	//---------------------------------------------------------------------------------------
+	vector<Score> v;
+	//vector<pair<string, int>> v;
+	//---------------------------------------------------------------------------------------
+
+	v.push_back(make_pair("코딩", 300));
+	v.push_back(make_pair("게임", 200));
+	v.push_back(make_pair("안돼", 700)); // 이렇게 작업하는것이 가장 편하다. (탬플릿 함수 make_pair)
+	v.push_back(make_pair<string, int>("몰라", 600));	//탬플릿은 명시적으로 입력해주는것이 좋다.
+	v.push_back(pair<string, int>("루피", 400));
+	v.push_back(pair<string, int>("쵸파", 100));
+
+	// sort로 정렬해보시오.
+	sort(v.begin(), v.end(), [](const Score& a, const Score& b) {
+		// 글자순
+		cout << a.first << " > " << b.first << endl;
+		return a.first > b.first;
+	});
+
+	/*
+	for (int i = 0; i < v.size(); ++i) {
+		cout << v[i].first << v[i].second << endl;
+	}
+	/*
+	for (auto d : v) {
+		cout << d.first << d.second << endl;
+	}
+	*/
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Mar 30 11:47:43 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 30일
+//
+// 5장
+// pair<>, 스마트 포인터, type traits
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <utility> // pair 사용할때
+#include<random>
+#include <string>
+#include <memory> // unique_ptr or shared_ptr 사용시 사용
+#include "save.h"
+
+using namespace std;
+
+// 스마트 포인터
+//	자신의 획득한 자원을 자신이 소멸될때 해제해 주는 포인터
+// c++ 11에서는
+// unique_ptr - 자원을 독점하는 포인터
+// shared_ptr - 자원을 공유하는 포인터
+
+
+// 포인터 
+// 1. 자원을 획득한다(HEAP)
+// 2. 자원을 이용한다
+// 3. 반환한다.
+
+class Mini {
+public:
+	Mini() {
+		cout << "ctor(생성자)" << endl;
+	}
+	~Mini() {
+		cout << "dtor(소멸자)" << endl;
+	}
+	void f() {
+		cout << "member(맴버)" << endl;
+	}
+};
+
+int main() {
+	//Mini* p = new Mini;
+	//자원을 독점하는 unique_ptr
+		unique_ptr<Mini> p(new Mini);
+		p->f();
+		//unique_ptr<Mini> q = p; //고유 소유권으로 인해서 복사가 안된다.
+		unique_ptr<Mini> q = move(p);
+
+		cout << "이사간 후" << endl;
+		p->f();
+
+	save();
+}

@@ -1,0 +1,569 @@
+
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 21 10:56:08 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 16일
+// c++ Class 복습
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+int gid{ 0 };
+
+class Model {
+	char* data{ nullptr };	// 표준 초기값 Null포인터
+	size_t size{ 0 };
+	int id;
+public:
+	Model() {
+		id = gid++;
+		cout << id << " 기본 생성자" << endl;
+	};
+	//Model() {}; // 디폴트 생성자
+	Model(int n) : size(n) {
+		id = gid++;
+		data = new char[size];
+		cout << id << " 생성자(크기)" << size << endl;
+	}
+
+	Model(const Model& other) : size(other.size) {		// 복사 생성자
+		// 대입연산자를 만들었다면 복사생성을 간단하게 다음과 같이 사용할수 있다.
+		id = gid++;
+		*this = other;
+		cout << id << " 복사생성자(크기)" << size << endl;
+		/*
+		data = new char[size];
+		// 데이터를 복사해온다
+		memcpy(data, other.data, size);
+		*/
+	}
+
+	~Model() { // 소멸자
+		if (data != nullptr)
+			delete[] data;
+		cout << id << " 소멸자(크기)" << size << endl;
+	}
+
+	// 대입 연산자(assignment operator)
+	Model& operator=(const Model& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 만든 메모리를 먼저 지워야 한다.
+		if (data != nullptr)
+			delete[] data;
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = new char[size];
+		memcpy(data, other.data, size);
+		cout << id << " 대입연사자(크기)" << size << endl;
+		return *this;
+	}
+};
+
+int main() {
+
+	string s("0q1w2e3r4t5y6u7i8o9p0a1s2d3f4g5h6j7k8l9z0x1c2v3b4n5m6");
+	string t = move(s); //이동 생성 상황
+	// s의 데이터를  t에다가 넘긴다.
+
+	cout << s << endl;
+	cout << t << endl;
+
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 21 11:11:14 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 16일
+// c++ Class 복습
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+int gid{ 0 };
+
+class Model {
+	char* data{ nullptr };	// 표준 초기값 Null포인터
+	size_t size{ 0 };
+	int id;
+public:
+	Model() {
+		id = gid++;
+		cout << id << " 기본 생성자" << endl;
+	};
+	//Model() {}; // 디폴트 생성자
+	Model(int n) : size(n) {
+		id = gid++;
+		data = new char[size];
+		cout << id << " 생성자(크기)" << size << endl;
+	}
+
+	Model(const Model& other) : size(other.size) {		// 복사 생성자
+		// 대입연산자를 만들었다면 복사생성을 간단하게 다음과 같이 사용할수 있다.
+		id = gid++;
+		*this = other;
+		cout << id << " 복사생성자(크기)" << size << endl;
+		/*
+		data = new char[size];
+		// 데이터를 복사해온다
+		memcpy(data, other.data, size);
+		*/
+	}
+	/*
+	Model(Model&& other) : data(nullptr), size(other.size), id(gid++) {		// 이동 생성자
+		data = other.data;
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+	*/
+	Model(Model&& other) { // && : r-value reference ( 오른쪽값 참조 )
+		// 이동 생성자
+		data = other.data;
+		size = other.size;
+		id = gid++;
+
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+
+	~Model() { // 소멸자
+		if (data != nullptr)
+			delete[] data;
+		cout << id << " 소멸자(크기)" << size << endl;
+	}
+
+	// 대입 연산자(assignment operator)
+	Model& operator=(const Model& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 만든 메모리를 먼저 지워야 한다.
+		if (data != nullptr)
+			delete[] data;
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = new char[size];
+		memcpy(data, other.data, size);
+		cout << id << " 대입연사자(크기)" << size << endl;
+		return *this;
+	}
+};
+
+int main() {
+
+	Model a(1000);
+	//Model b = move(a);
+	// move 랑 똑같다 아래와 같다.
+	Model b((Model&&)a);
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 21 11:37:21 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 16일
+// c++ Class 복습
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+int gid{ 0 };
+
+class Model {
+	char* data{ nullptr };	// 표준 초기값 Null포인터
+	size_t size{ 0 };
+	int id;
+public:
+	Model() {
+		id = gid++;
+		cout << id << " 기본 생성자" << endl;
+	};
+	//Model() {}; // 디폴트 생성자
+	Model(int n) : size(n) {
+		id = gid++;
+		data = new char[size];
+		cout << id << " 생성자(크기)" << size << endl;
+	}
+
+	Model(const Model& other) : size(other.size) {		// 복사 생성자
+		// 대입연산자를 만들었다면 복사생성을 간단하게 다음과 같이 사용할수 있다.
+		id = gid++;
+		*this = other;
+		cout << id << " 복사생성자(크기)" << size << endl;
+		/*
+		data = new char[size];
+		// 데이터를 복사해온다
+		memcpy(data, other.data, size);
+		*/
+	}
+	/*
+	Model(Model&& other) : data(nullptr), size(other.size), id(gid++) {		// 이동 생성자
+		data = other.data;
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+	*/
+	Model(Model&& other) { // && : r-value reference ( 오른쪽값 참조 )
+		// 이동 생성자
+		data = other.data;
+		size = other.size;
+		id = gid++;
+
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+
+	~Model() { // 소멸자
+		if (data != nullptr)
+			delete[] data;
+		cout << id << " 소멸자(크기)" << size << endl;
+	}
+
+	// 대입 연산자(assignment operator)
+	Model& operator=(const Model& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 만든 메모리를 먼저 지워야 한다.
+		if (data != nullptr)
+			delete[] data;
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = new char[size];
+		memcpy(data, other.data, size);
+		cout << id << " 대입연사자(크기)" << size << endl;
+		return *this;
+	}
+
+	// Move assignment operator
+	Model& operator=(Model&& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 원래 활당한 메모리가 있다면 지우자.
+		if (data != nullptr) {
+			delete[] data;
+		}
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = other.data;
+
+		other.data = nullptr;
+		other.size = 0;
+
+		cout << id << "이동대입연산자(기존 객체)" << size << "id " << other.id << endl;
+
+		return *this;
+	}
+
+};
+
+int main() {
+
+	Model a(1000);
+	Model b(1234);
+
+	a = move(b);		// 이동 대입 연산자
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 21 11:44:23 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 16일
+// c++ Class 복습
+// 생성자, 소멸자, 복사생성자, 대입연산자, 이동생성자, 이동대입연산자
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+int gid{ 0 };
+
+class Model {
+	char* data{ nullptr };	// 표준 초기값 Null포인터
+	size_t size{ 0 };
+	int id;
+public:
+	Model() {
+		id = gid++;
+		cout << id << " 기본 생성자" << endl;
+	};
+	//Model() {}; // 디폴트 생성자
+	Model(int n) : size(n) {
+		id = gid++;
+		data = new char[size];
+		cout << id << " 생성자(크기)" << size << endl;
+	}
+
+	Model(const Model& other) : size(other.size) {		// 복사 생성자
+		// 대입연산자를 만들었다면 복사생성을 간단하게 다음과 같이 사용할수 있다.
+		id = gid++;
+		*this = other;
+		cout << id << " 복사생성자(크기)" << size << endl;
+		/*
+		data = new char[size];
+		// 데이터를 복사해온다
+		memcpy(data, other.data, size);
+		*/
+	}
+	/*
+	Model(Model&& other) : data(nullptr), size(other.size), id(gid++) {		// 이동 생성자
+		data = other.data;
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+	*/
+	Model(Model&& other) { // && : r-value reference ( 오른쪽값 참조 )
+		// 이동 생성자
+		data = other.data;
+		size = other.size;
+		id = gid++;
+
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+
+	~Model() { // 소멸자
+		if (data != nullptr)
+			delete[] data;
+		cout << id << " 소멸자(크기)" << size << endl;
+	}
+
+	// 대입 연산자(assignment operator)
+	Model& operator=(const Model& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 만든 메모리를 먼저 지워야 한다.
+		if (data != nullptr)
+			delete[] data;
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = new char[size];
+		memcpy(data, other.data, size);
+		cout << id << " 대입연사자(크기)" << size << endl;
+		return *this;
+	}
+
+	// Move assignment operator
+	Model& operator=(Model&& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 원래 활당한 메모리가 있다면 지우자.
+		if (data != nullptr) {
+			delete[] data;
+		}
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = other.data;
+
+		other.data = nullptr;
+		other.size = 0;
+
+		cout << id << "이동대입연산자(기존 객체)" << size << "id " << other.id << endl;
+
+		return *this;
+	}
+
+};
+
+int main() {
+
+	Model a(1000);
+	Model b(1234);
+
+	a = move(b);		// 이동 대입 연산자
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 21 12:06:03 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 21일
+// c++ Class 복습
+// 생성자, 소멸자, 복사생성자, 대입연산자, 이동생성자, 이동대입연산자
+// 3장 3.1.5 이동 r-value 설명을 하기위한것
+// 57쪽 내용 몰라도 된다.
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include <vector>
+#include "save.h"
+using namespace std;
+
+int gid{ 0 };
+
+class Model {
+	char* data{ nullptr };	// 표준 초기값 Null포인터
+	size_t size{ 0 };
+	int id;
+public:
+	Model() {
+		id = gid++;
+		cout << id << " 기본 생성자" << endl;
+	};
+	//Model() {}; // 디폴트 생성자
+	Model(int n) : size(n) {
+		id = gid++;
+		data = new char[size];
+		cout << id << " 생성자(크기)" << size << endl;
+	}
+
+	Model(const Model& other) : size(other.size) {		// 복사 생성자
+		// 대입연산자를 만들었다면 복사생성을 간단하게 다음과 같이 사용할수 있다.
+		id = gid++;
+		*this = other;
+		cout << id << " 복사생성자(크기)" << size << endl;
+		/*
+		data = new char[size];
+		// 데이터를 복사해온다
+		memcpy(data, other.data, size);
+		*/
+	}
+	/*
+	Model(Model&& other) : data(nullptr), size(other.size), id(gid++) {		// 이동 생성자
+		data = other.data;
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+	*/
+	Model(Model&& other) { // && : r-value reference ( 오른쪽값 참조 )
+		// 이동 생성자
+		data = other.data;
+		size = other.size;
+		id = gid++;
+
+		other.data = nullptr;
+		other.size = 0;
+		cout << id << "이동생성자(기존 객체)" << size << "id " << other.id << endl;
+	}
+
+	~Model() { // 소멸자
+		if (data != nullptr)
+			delete[] data;
+		cout << id << " 소멸자(크기)" << size << endl;
+	}
+
+	// 대입 연산자(assignment operator)
+	Model& operator=(const Model& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 만든 메모리를 먼저 지워야 한다.
+		if (data != nullptr)
+			delete[] data;
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = new char[size];
+		memcpy(data, other.data, size);
+		cout << id << " 대입연사자(크기)" << size << endl;
+		return *this;
+	}
+
+	// Move assignment operator
+	Model& operator=(Model&& other) {
+		// 자기 자신을 대입한다면 아무것도 안해도 된다.
+		if (this == &other)
+			return *this;
+		// 내가 원래 활당한 메모리가 있다면 지우자.
+		if (data != nullptr) {
+			delete[] data;
+		}
+		// 대입할 메모리와 같은 내용으로 만든다.
+		size = other.size;
+		data = other.data;
+
+		other.data = nullptr;
+		other.size = 0;
+
+		cout << id << "이동대입연산자(기존 객체)" << size << "id " << other.id << endl;
+
+		return *this;
+	}
+
+};
+
+int main() {
+	//Model a[]; //동적 배열
+	// 동적의 반대말은 컴파잁타임
+
+	vector<Model> v;
+	v.push_back(Model(100));
+	v.push_back(Model(200));
+
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Mar 21 12:11:03 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 03월 21일
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include "save.h"
+using namespace std;
+
+class Test {
+	/*
+	구버전 복사생성자 방지 방법.
+public:
+	Test() {}
+private:
+	Test(const Test&) {}
+	*/
+
+public:
+	//void f() override final;
+	Test() = default;
+	Test(const Test&) = delete;
+};
+
+int main() {
+
+	Test a;
+	//Test b(a);	//복사생성자 방지는 private에다가 넣는다.
+	save();
+}
