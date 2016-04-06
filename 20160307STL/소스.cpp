@@ -1,32 +1,43 @@
 //---------------------------------------------------------------------------
-// 2016년 04월 04일
+// 2016년 04월 06일
 //
 // 6장
 // 표준 템플릿 라이브러리(STL)
 //
 //---------------------------------------------------------------------------
 #include <iostream>
-#include<algorithm>
-#include<functional> // bind 함수를 쓰기위해서
 #include <vector>
-#include <utility> // pair 사용할때
-#include<random>
-#include <string>
-#include <memory> // unique_ptr or shared_ptr 사용시 사용
+#include<string>
+#include<algorithm>
 #include "save.h"
 
 using namespace std;
 
-// 보조함수
+// pair<string, int> 인 자료를 vector에 넣어 관리하고 싶다.
+using Score = pair<string, int>;
+
 
 int main() {
-	int a[]{ 1,2,3,4,5,6,7,8,9,10 };
+	vector<Score> v;
 
-	// minmax()  함수는 큰 값과 작은 값을 같이 찾아 주는 보조함수이다.
+	v.push_back(make_pair("마우스", 40));
+	v.push_back(make_pair("키보드", 50));
+	v.push_back(make_pair("모니터", 100));
+	v.push_back(make_pair("메모리", 1000));
+	v.push_back(make_pair("cpu", 10000));
 
-	pair<int,int> p = minmax(&a[0], &a[10]);
-	// 어떤걸로 이 값을 받을것인가?
-	// 리턴값이 pair일꺼다.
+	// 이름순으로 정렬하여 출력해 보세요.
+
+	sort(v.begin(), v.end(), [](const Score& a, const Score& b) {
+		return a.second > b.second;
+	});
+
+	//STL 반복자를 이용한 컨테이너 원소 접근
+	vector<Score>::iterator	i = v.begin();
+
+	cout << i->first << " , " << i->second << endl;
+	i++;
+	cout << i->first << " , " << i->second << endl;
 
 	//save();
 }

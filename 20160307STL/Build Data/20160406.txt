@@ -1,0 +1,385 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:37:33 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <utility> // pair 사용할때
+#include<random>
+#include <string>
+#include <memory> // unique_ptr or shared_ptr 사용시 사용
+#include "save.h"
+
+using namespace std;
+
+// array 컨테이너
+// STL 표준 컨테이너이며 정적 배열(컴파일시 크기가 정해져야 함)이다.
+
+int main() {
+	// 정수 10개를 담는 array를 만들어 보자.
+	array<int, 10> a{3, 5, 6, 8, 0, 1, 2, 4, 7, 9};
+
+	sort(a.begin(), a.end(), [](int a, int b){
+		return a > b; });
+	for (int i = 0; i < a.size(); ++i) {
+		cout << a[i] << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:39:48 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include<algorithm>
+#include<functional> // bind 함수를 쓰기위해서
+#include <vector>
+#include <utility> // pair 사용할때
+#include<random>
+#include <string>
+#include <memory> // unique_ptr or shared_ptr 사용시 사용
+#include "save.h"
+
+using namespace std;
+
+// array 컨테이너
+// STL 표준 컨테이너이며 정적 배열(컴파일시 크기가 정해져야 함)이다.
+
+int main() {
+	// 정수 10개를 담는 array를 만들어 보자.
+	vector<int> a{3, 5, 6, 8, 0, 1, 2, 4, 7, 9};
+
+	for (int i = 0; i < a.size(); ++i) {
+		cout << a[i] << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:42:01 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include <vector>
+#include <list>
+#include<algorithm>
+#include "save.h"
+
+using namespace std;
+
+// array 컨테이너
+// STL 표준 컨테이너이며 정적 배열(컴파일시 크기가 정해져야 함)이다.
+
+int main() {
+	// 정수 10개를 담는 array를 만들어 보자.
+	list<int> a{ 3, 5, 6, 8, 0, 1, 2, 4, 7, 9 };
+
+	for (auto i = a.begin(); i != a.end(); ++i){
+		cout << *i << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:42:29 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include <vector>
+#include <list>
+#include<set>
+#include<algorithm>
+#include "save.h"
+
+using namespace std;
+
+// array 컨테이너
+// STL 표준 컨테이너이며 정적 배열(컴파일시 크기가 정해져야 함)이다.
+
+int main() {
+	// 정수 10개를 담는 array를 만들어 보자.
+	set<int> a{ 3, 5, 6, 8, 0, 1, 2, 4, 7, 9 };
+
+	for (auto i = a.begin(); i != a.end(); ++i){
+		cout << *i << endl;
+	}
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:57:02 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include <vector>
+#include<string>
+#include<iterator>
+#include "save.h"
+
+using namespace std;
+
+// 키보드에서 원하는 만큼의 단어를 입력받아서 저장해라.
+// 오른차순으로 정렬한 후
+// 화면에 전체를 출력하라.
+
+// 이문제를 어떻게 해결할 지 생각해 보자
+
+int main() {
+	// 백터에 원하는 자료를 받는다.
+	vector<string> v;
+	copy(istream_iterator<string>(cin), istream_iterator<string>(), back_inserter(v));
+	// 벡터의 자룔를 정렬한다.
+	sort(v.begin(), v.end());
+	//	정렬된 벡터를 출력한다
+	copy(v.begin(), v.end(), ostream_iterator<string>(cout, "   "));
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:57:56 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include <vector>
+#include<string>
+#include<iterator>
+#include "save.h"
+
+using namespace std;
+
+// 키보드에서 원하는 만큼의 단어를 입력받아서 저장해라.
+// 오른차순으로 정렬한 후
+// 화면에 전체를 출력하라.
+
+// 이문제를 어떻게 해결할 지 생각해 보자
+
+int main() {
+	// 백터에 원하는 자료를 받는다.
+	vector<string> v;
+	copy(istream_iterator<string>(cin), istream_iterator<string>(), back_inserter(v));
+	// 벡터의 자룔를 정렬한다.
+	sort(v.begin(), v.end());
+	//	정렬된 벡터를 출력한다
+	copy(v.begin(), v.end(), ostream_iterator<string>(cout, "   "));
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 11:59:15 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include <vector>
+#include<string>
+#include<iterator>
+#include "save.h"
+
+using namespace std;
+
+// 키보드에서 원하는 만큼의 단어를 입력받아서 저장해라.
+// 오른차순으로 정렬한 후
+// 화면에 전체를 출력하라.
+
+// 이문제를 어떻게 해결할 지 생각해 보자
+
+int main() {
+	// 백터에 원하는 자료를 받는다.
+	vector<string> v;
+	copy(istream_iterator<string>(cin), istream_iterator<string>(), back_inserter(v));
+	// 벡터의 자룔를 정렬한다.
+	sort(v.begin(), v.end());
+	//	정렬된 벡터를 출력한다
+	copy(v.begin(), v.end(), ostream_iterator<string>(cout, "   "));
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 12:00:25 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<array>
+#include <vector>
+#include<string>
+#include<iterator>
+#include <set>
+#include "save.h"
+
+using namespace std;
+
+// 키보드에서 원하는 만큼의 단어를 입력받아서 저장해라.
+// 오른차순으로 정렬한 후
+// 화면에 전체를 출력하라.
+
+// 이문제를 어떻게 해결할 지 생각해 보자
+
+int main() {
+	// 백터에 원하는 자료를 받는다.
+	set<string> v;
+	copy(istream_iterator<string>(cin), istream_iterator<string>(), inserter(v, v.begin()));
+	// 벡터의 자룔를 정렬한다.
+	//sort(v.begin(), v.end());
+	//	정렬된 벡터를 출력한다
+	copy(v.begin(), v.end(), ostream_iterator<string>(cout, "   "));
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 12:11:29 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include<string>
+#include<algorithm>
+#include "save.h"
+
+using namespace std;
+
+// pair<string, int> 인 자료를 vector에 넣어 관리하고 싶다.
+using Score = pair<string, int>;
+
+
+int main() {
+	vector<Score> v;
+
+	v.push_back(make_pair("마우스", 40));
+	v.push_back(make_pair("키보드", 50));
+	v.push_back(make_pair("모니터", 100));
+	v.push_back(make_pair("메모리", 1000));
+	v.push_back(make_pair("cpu", 10000));
+
+	// 이름순으로 정렬하여 출력해 보세요.
+
+	sort(v.begin(), v.end(), [](const Score& a, const Score& b) {
+		return a.second > b.second;
+	});
+
+	for (auto d : v)
+		cout << d.second << endl;
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr  6 12:18:00 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 06일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include<string>
+#include<algorithm>
+#include "save.h"
+
+using namespace std;
+
+// pair<string, int> 인 자료를 vector에 넣어 관리하고 싶다.
+using Score = pair<string, int>;
+
+
+int main() {
+	vector<Score> v;
+
+	v.push_back(make_pair("마우스", 40));
+	v.push_back(make_pair("키보드", 50));
+	v.push_back(make_pair("모니터", 100));
+	v.push_back(make_pair("메모리", 1000));
+	v.push_back(make_pair("cpu", 10000));
+
+	// 이름순으로 정렬하여 출력해 보세요.
+
+	sort(v.begin(), v.end(), [](const Score& a, const Score& b) {
+		return a.second > b.second;
+	});
+
+	//STL 반복자를 이용한 컨테이너 원소 접근
+	vector<Score>::iterator	i = v.begin();
+
+	cout << i->first << " , " << i->second << endl;
+	i++;
+	cout << i->first << " , " << i->second << endl;
+
+	save();
+}
