@@ -1,43 +1,49 @@
 //---------------------------------------------------------------------------
-// 2016년 04월 06일
+// 2016년 04월 11일
 //
 // 6장
 // 표준 템플릿 라이브러리(STL)
 //
 //---------------------------------------------------------------------------
 #include <iostream>
-#include <vector>
-#include<string>
-#include<algorithm>
+#include <set>
+#include <random>
 #include "save.h"
 
 using namespace std;
 
-// pair<string, int> 인 자료를 vector에 넣어 관리하고 싶다.
-using Score = pair<string, int>;
-
 
 int main() {
-	vector<Score> v;
+	// 연관 컨테이너 set<int>에 랜덤정수 100개 넣고 출력해보자
+	set<int> s;
 
-	v.push_back(make_pair("마우스", 40));
-	v.push_back(make_pair("키보드", 50));
-	v.push_back(make_pair("모니터", 100));
-	v.push_back(make_pair("메모리", 1000));
-	v.push_back(make_pair("cpu", 10000));
+	for (int i = 0; i < 100; ++i)
+		s.insert(rand());
 
-	// 이름순으로 정렬하여 출력해 보세요.
+	for (set<int>::const_iterator i = s.begin(); i != s.end(); ++i) {
+		cout << *i << "\t";
+	}
 
-	sort(v.begin(), v.end(), [](const Score& a, const Score& b) {
-		return a.second > b.second;
-	});
+	//auto p = find(s.begin(), s.end(), 32757);
+	auto p = s.find(32757);
+	if (p != s.end()) {
+		//찾음
+		cout << *p << endl;
+	}
+	else {
+		// 못찾음
+	}
 
-	//STL 반복자를 이용한 컨테이너 원소 접근
-	vector<Score>::iterator	i = v.begin();
+	/*
+	uniform_int_distribution <>ui(0,1000);
+	default_random_engine dre;
 
-	cout << i->first << " , " << i->second << endl;
-	i++;
-	cout << i->first << " , " << i->second << endl;
+	for (int i = 0; i < 100; ++i)
+	s.insert(ui(dre));
 
-	//save();
+	for (auto iter = s.begin(); iter != s.end(); ++iter) {
+		cout << *iter << " ";
+	}
+	*/
+	save();
 }
