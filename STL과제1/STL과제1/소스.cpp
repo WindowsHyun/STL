@@ -141,6 +141,27 @@ int main() {
 			cout << "결과 : ID, 점수를 변경하였습니다." << endl;
 			break;
 
+		case 4:
+			system("cls");
+			cout << "------------------------------------------------------------" << endl;
+			cout << "\t\t나는 상위 몇% 인가..?" << endl;
+			cout << "------------------------------------------------------------" << endl;
+			cout << endl;
+			cout << "점수를 기준으로 오름차순 정렬을 하는중 입니다..!" << endl;
+			sort(sql.begin(), sql.end(), [](const randData& a, const randData& b) {
+				return a.second > b.second;
+			});
+			mLocation = myIDLocation(sql)+1;
+			system("cls");
+			double percentage, fullsize;
+			fullsize = sql.size();
+			percentage = mLocation / fullsize;
+			cout << "전체 인원 : " << sql.size() << endl;
+			cout << "나의 등수 : " << mLocation << endl;
+			cout << "계산식 : " << mLocation << "/" << sql.size() << "*100" << endl;
+			cout << "결과 : " << percentage * 100 << "%에 있습니다." << endl;
+			break;
+
 		case 5:
 			system("cls");
 			cout << "------------------------------------------------------------" << endl;
@@ -161,12 +182,12 @@ int main() {
 			cout << "------------------------------------------------------------" << endl;
 			cout << endl;
 			sort(sql.begin(), sql.end(), [](const randData& a, const randData& b) {
-				return a.second > b.second;
+				return a.second < b.second;
 			});
 			system("cls");
 			cout << "결과 : 점수기준으로 내림차순 완료..!" << endl;
 			break;
-		
+
 		case 7:
 			system("cls");
 			//int mLocation;
@@ -175,7 +196,8 @@ int main() {
 			cout << "------------------------------------------------------------" << endl;
 			cout << endl;
 			//------------------------------------------------------------------------------------------------------------------------------------------------------------
-			// 일단 점수를 기준으로 내림차순 하고선 진행하자.
+			// 일단 점수를 기준으로 오름차순 하고선 진행하자.
+			cout << "점수를 기준으로 오름차순 정렬을 하는중 입니다..!" << endl;
 			sort(sql.begin(), sql.end(), [](const randData& a, const randData& b) {
 				return a.second > b.second;
 			});
@@ -183,24 +205,19 @@ int main() {
 			mLocation = myIDLocation(sql);
 			cout << "현재 " << mLocation << "에 있습니다." << endl << endl;
 			int startrange, endrange;
-			startrange = 10, endrange = 10;
+			startrange = -10, endrange = 10;
+
 			if (mLocation <= 10) {
-				cout << 10 - mLocation << "0000" << endl;
 				startrange = 10 - 10 - mLocation;
-				cout << "시작은 : " << startrange << endl;
 			}
-
-			if (mLocation + 10 >= sql.size() ){
-				cout << "초과다 0000" << endl;
-				endrange = sql.size() - mLocation-1;
-				cout << endrange << "0000" << endl;
+			if (mLocation + 10 >= sql.size()) {
+				endrange = sql.size() - mLocation - 1;
 			}
-
 
 			for (int i = mLocation + startrange; i < mLocation + endrange; ++i) {
 				if (i == mLocation)
-					cout << "*";
-				cout << sql[i].first << " --> " << sql[i].second << endl;
+					cout << "--> ";
+				cout << i << ". 아이디 : " << sql[i].first << setw(20) << "\t\t점수 : " << sql[i].second << endl;
 			}
 
 
@@ -245,7 +262,7 @@ int main() {
 
 void saveData(vector<char> v, default_random_engine dre, int limitValue) {
 	dre.seed((unsigned int)time(NULL));
-	uniform_int_distribution<>ui(1, 10000000);    // 고르게 분포
+	uniform_int_distribution<>ui(1, 1000000000);    // 고르게 분포
 	uniform_int_distribution<>nd(0, 64); // 그냥 분포
 	uniform_int_distribution<>id(5, 15); // 아이디 길이
 
@@ -282,8 +299,8 @@ vector<randData> loadData(vector<randData> sql) {
 
 void printAll(vector<randData> sql) {
 	for (auto d : sql) {
-		
-		cout << "아이디 : " << d.first<< setw(20) << "\t\t점수 : " << d.second << endl;
+
+		cout << "아이디 : " << d.first << setw(20) << "\t\t점수 : " << d.second << endl;
 	}
 }
 
