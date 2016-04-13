@@ -6,6 +6,7 @@
 #include <vector>
 #include<algorithm>
 #include <Windows.h> //clear 사용하기 위하여
+#include <iomanip> // 깔끔한 출력을 위하여?
 
 using namespace std;
 using randData = pair<string, int>;
@@ -36,7 +37,23 @@ int main() {
 	cout << cont.size() << endl;
 	*/
 	//------------------------------------------------------------------------------------------------------------------------------------------------------------
-	saveData(v, dre, initDataValue);
+	/*
+	ifstream read("2012180004.txt");
+	char dataClear;
+	if (read) {
+		// 파일이 존재하지 않을경우
+		cout << "DB가 존재합니다." << endl;
+		cout << "DB를 새로 만들겠습니까? (Y/N)";
+		cin >> dataClear;
+		system("cls");
+	}
+	if (dataClear == 'Y' || dataClear == 'y') {
+		cout << "결과 : DB초기화 및 새롭게 저장하였습니다." << endl;
+		saveData(v, dre, initDataValue);
+	}
+	else {
+		cout << "결과 : DB를 유지한 상태로 시작합니다." << endl;
+	}
 	sql = loadData(sql);
 	cout << "------------------------------------------------------------" << endl;
 	cout << "\t\t\t초기 사용자 등록" << endl;
@@ -53,6 +70,12 @@ int main() {
 	따로 직접 id, 와 점수를 처음 시작시 받기로 하였다.
 	매번 실행 할때마다 나오는것은 귀찮긴 하지만 이것이 가장 확실한 방법!
 	*/
+	myID = "WindowsHyun";
+	myScore = 1806383;
+	sql = loadData(sql);
+	sql.push_back(make_pair(myID, myScore));
+
+
 	while (stlGUI) {
 		int selectNum;
 		cout << "------------------------------------------------------------" << endl;
@@ -104,7 +127,7 @@ int main() {
 			cout << "\t\t자신의 ID, 점수 변경하기" << endl;
 			cout << "------------------------------------------------------------" << endl;
 			cout << endl;
-			mLocation= myIDLocation(sql);
+			mLocation = myIDLocation(sql);
 			//cout << "현재 " << mLocation << "에 있습니다." << endl;
 			cout << endl;
 			cout << "아이디를 입력해주세요 : ";
@@ -116,6 +139,71 @@ int main() {
 
 			system("cls");
 			cout << "결과 : ID, 점수를 변경하였습니다." << endl;
+			break;
+
+		case 5:
+			system("cls");
+			cout << "------------------------------------------------------------" << endl;
+			cout << "\t\tID를 기준으로 오른차순 중입니다..!" << endl;
+			cout << "------------------------------------------------------------" << endl;
+			cout << endl;
+			sort(sql.begin(), sql.end(), [](const randData& a, const randData& b) {
+				return a.first < b.first;
+			});
+			system("cls");
+			cout << "결과 : ID기준으로 오름차순 완료..!" << endl;
+			break;
+
+		case 6:
+			system("cls");
+			cout << "------------------------------------------------------------" << endl;
+			cout << "\t\t점수를 기준으로 내림차순 중입니다..!" << endl;
+			cout << "------------------------------------------------------------" << endl;
+			cout << endl;
+			sort(sql.begin(), sql.end(), [](const randData& a, const randData& b) {
+				return a.second > b.second;
+			});
+			system("cls");
+			cout << "결과 : 점수기준으로 내림차순 완료..!" << endl;
+			break;
+		
+		case 7:
+			system("cls");
+			//int mLocation;
+			cout << "------------------------------------------------------------" << endl;
+			cout << "\t\t자신의 ID, 점수 변경하기" << endl;
+			cout << "------------------------------------------------------------" << endl;
+			cout << endl;
+			//------------------------------------------------------------------------------------------------------------------------------------------------------------
+			// 일단 점수를 기준으로 내림차순 하고선 진행하자.
+			sort(sql.begin(), sql.end(), [](const randData& a, const randData& b) {
+				return a.second > b.second;
+			});
+			//------------------------------------------------------------------------------------------------------------------------------------------------------------
+			mLocation = myIDLocation(sql);
+			cout << "현재 " << mLocation << "에 있습니다." << endl << endl;
+			int startrange, endrange;
+			startrange = 10, endrange = 10;
+			if (mLocation <= 10) {
+				cout << 10 - mLocation << "0000" << endl;
+				startrange = 10 - 10 - mLocation;
+				cout << "시작은 : " << startrange << endl;
+			}
+
+			if (mLocation + 10 >= sql.size() ){
+				cout << "초과다 0000" << endl;
+				endrange = sql.size() - mLocation-1;
+				cout << endrange << "0000" << endl;
+			}
+
+
+			for (int i = mLocation + startrange; i < mLocation + endrange; ++i) {
+				if (i == mLocation)
+					cout << "*";
+				cout << sql[i].first << " --> " << sql[i].second << endl;
+			}
+
+
 			break;
 
 		case 8:
@@ -157,7 +245,7 @@ int main() {
 
 void saveData(vector<char> v, default_random_engine dre, int limitValue) {
 	dre.seed((unsigned int)time(NULL));
-	uniform_int_distribution<>ui(1, 100000);    // 고르게 분포
+	uniform_int_distribution<>ui(1, 10000000);    // 고르게 분포
 	uniform_int_distribution<>nd(0, 64); // 그냥 분포
 	uniform_int_distribution<>id(5, 15); // 아이디 길이
 
@@ -194,7 +282,8 @@ vector<randData> loadData(vector<randData> sql) {
 
 void printAll(vector<randData> sql) {
 	for (auto d : sql) {
-		cout << "아이디 : " << d.first << "\t\t점수 : " << d.second << endl;
+		
+		cout << "아이디 : " << d.first<< setw(20) << "\t\t점수 : " << d.second << endl;
 	}
 }
 
