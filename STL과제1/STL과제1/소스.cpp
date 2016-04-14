@@ -464,3 +464,4 @@ int myIDLocation(const vector<randData>& sql) {
 		return -1;
 	}
 }
+
