@@ -3,47 +3,41 @@
 //
 // 6장
 // 표준 템플릿 라이브러리(STL)
-//
+// 컨테이너
+// 이터레이터
+// 알고리즘
 //---------------------------------------------------------------------------
 #include <iostream>
-#include <set>
-#include <random>
 #include "save.h"
 
 using namespace std;
+/*
+ 반복자(iterator)
+ 컨테이너가 자신의 원소를 순회할 수 있도록 제공하는
+ 마치 포인터처럼 사용할 수 있는 인터페이스이다.
 
+ 컨테이너의 멤버함수
+		begin()	- 컨테이너의 처음 원소를 가리킨다
+		end()		- 컨테이너의 마지막 원소를 하나 지난 위치를 가리킨다
 
+ 반복자로 할 수 있는 연산
+		*		-	역참조(derefencing operator)
+		++		-	다음 원소로 이동한다
+		==		-	반복자끼리 비교한다.
+
+ 반복자의 종류(category)
+
+ STL 표준 컨테이너가 제공하는 반복자는 다음 카테고리 중 하나이다
+ 1. 순방향(forward) 반복자								- forward_list
+ 2. 양방향(bidirectional) 반복자							- list
+ 3. 랜덤 억세스(random access) 반복자				- array, vector, deque
+ 
+ 그 외에
+ 4. 입력반복자
+ 5. 출력반복자
+
+ */
 int main() {
-	// 연관 컨테이너 set<int>에 랜덤정수 100개 넣고 출력해보자
-	set<int> s;
 
-	for (int i = 0; i < 100; ++i)
-		s.insert(rand());
-
-	for (set<int>::const_iterator i = s.begin(); i != s.end(); ++i) {
-		cout << *i << "\t";
-	}
-
-	//auto p = find(s.begin(), s.end(), 32757);
-	auto p = s.find(32757);
-	if (p != s.end()) {
-		//찾음
-		cout << *p << endl;
-	}
-	else {
-		// 못찾음
-	}
-
-	/*
-	uniform_int_distribution <>ui(0,1000);
-	default_random_engine dre;
-
-	for (int i = 0; i < 100; ++i)
-	s.insert(ui(dre));
-
-	for (auto iter = s.begin(); iter != s.end(); ++iter) {
-		cout << *iter << " ";
-	}
-	*/
-	save();
+	//save();
 }
