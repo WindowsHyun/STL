@@ -1,0 +1,161 @@
+
+---------------------------------------
+2016년 1학기 STL
+Mon Apr 18 10:45:41 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <random>
+#include<functional> // set 함수에서 오름차숨 내림차순을 하기 위하여
+#include "save.h"
+
+using namespace std;
+
+
+int main() {
+	// 연관 컨테이너 set<int>에 랜덤정수 100개 넣고 출력해보자
+	set<int, greater<int>> s;
+
+	for (int i = 0; i < 100; ++i)
+		s.insert(rand());
+
+	for (auto i = s.cbegin(); i != s.cend(); ++i) {
+		cout << *i << "\t";
+	}
+
+	//auto p = find(s.begin(), s.end(), 32757);
+	auto p = s.find(32757);
+	if (p != s.end()) {
+		//찾음
+		cout << *p << endl;
+	}
+	else {
+		// 못찾음
+	}
+
+	/*
+	uniform_int_distribution <>ui(0,1000);
+	default_random_engine dre;
+
+	for (int i = 0; i < 100; ++i)
+	s.insert(ui(dre));
+
+	for (auto iter = s.begin(); iter != s.end(); ++iter) {
+		cout << *iter << " ";
+	}
+	*/
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Apr 18 11:18:58 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <map>
+#include "save.h"
+
+using namespace std;
+
+// 연관 컨테이너 map
+// map<key, value>
+// (연습) 이름과 점수를 map으로 관리해보자
+// key 값을 비교하므로 이미 있으면 거부를 한다.
+// map의 key 값은 읽기만 가능하다.
+
+int main() {
+	map<string, int> m{ {"아이폰", 51231}, make_pair("LG", 213443) };
+	// multimap 의 경우 중복값이 들어간다.
+	using Score = pair<string, int>;
+	// 유저가 정의하는 디파인이나 using은 무조건 대문자
+
+	m.insert(make_pair("타이젠", 230000));
+	m.insert(pair<string, int>("아이폰", 41470566));
+	m.insert(Score("갤럭시", 123456));
+
+	auto p = m.begin();
+	++p;
+	++p;
+	++p;
+	p->second = 7777;
+	// map은 subscript operator를 overloading 한다.
+	// 사용자는 map을 연관 배열(associative array)처럼 사용할 수 있다
+	m["LG"] = 54321;
+	m.operator[]("LG") = 54321;
+
+	m["모토로라"] = 18181;
+
+	// 새로 맵을 만들어 점수순으로 정렬
+	map<int, string> m2;
+	//auto p = m.begin();
+//	for (int i = 0; i < m.size(); ++i, ++p)
+		//m2.insert(make_pair(p->second, p->first));
+
+	for (auto d : m)
+		cout << d.first << " | " << d.second << endl;
+
+	for (auto d : m2)
+		cout << d.first << " | " << d.second << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon Apr 18 12:08:54 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include "save.h"
+
+using namespace std;
+
+// 반복자(iterator)
+// 컨테이너가 자신의 원소를 순회할 수 있도록 제공하는
+// 마치 포인터처럼 사용할 수 있는 인터페이스이다.
+//
+// 컨테이너의 멤버함수
+//		begin()	- 컨테이너의 처음 원소를 가리킨다
+//		end()		- 컨테이너의 마지막 원소를 하나 지난 위치를 가리킨다
+//
+// 반복자로 할 수 있는 연산
+//		*		-	역참조(derefencing operator)
+//		++		-	다음 원소로 이동한다
+//		==		-	반복자끼리 비교한다.
+
+int main() {
+	string s("1234567890");
+	for (auto p = s.rbegin(); p != s.rend(); ++p) {
+		// 거꾸로 출력해라
+		cout << *p << " ";
+	}
+	cout << endl;
+	save();
+}

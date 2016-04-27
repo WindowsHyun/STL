@@ -1,0 +1,341 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 10:46:46 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+int main() {
+	vector<int> v(100, 1);
+
+	for (int d : v)
+		cout << d << " ";
+	cout << endl;
+
+	auto p = find(v.begin(), v.end(), 333);
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 10:50:12 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+int main() {
+	multiset<int> v;
+
+	for (int i = 0; i < 20; ++i)
+		v.insert(1);
+
+	for (int d : v)
+		cout << d << " ";
+	cout << endl;
+
+	//auto p = find(v.begin(), v.end(), 333); 항상 효율적일수 없다.
+	auto p = v.find(333);
+	if (p == v.end())
+		cout << "없어" << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 11:09:46 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+
+template<class Iter, class val>
+Iter my_find(Iter beg, Iter end, val v) {
+	while (beg != end) {
+		if (*beg == v)
+			return beg;
+		++beg;
+	}
+	return end;
+}
+
+int main() {
+	vector<int> v{ 1,3,5,7,9 };
+
+	auto p = my_find(v.begin(), v.end(), 3);
+	if (p != v.end())
+		cout << "값을 찾음" << *p << endl;
+	else
+		cout << "값이 없음" << endl;
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 11:16:25 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<string>
+#include <vector>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+
+template<class Iter, class val>
+Iter my_find(Iter beg, Iter end, val v) {
+	while (beg != end) {
+		if (*beg == v)
+			return beg;
+		++beg;
+	}
+	return end;
+}
+
+int main() {
+	string s("abcdefghizklmnopqrstuvwxyz");
+
+	// s에서 m을 찾아서 대문자 M으로 바꿔라
+	auto p = my_find(s.begin(), s.end(), 'm');
+	*p = 'M';
+
+	cout << s << endl;
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 11:49:21 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<string>
+#include <vector>
+#include<algorithm>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+
+template<class Iter, class val>
+Iter my_find(Iter beg, Iter end, val v) {
+	while (beg != end) {
+		if (*beg == v)
+			return beg;
+		++beg;
+	}
+	return end;
+}
+
+template<class Iter>
+Iter my_min_element(Iter beg, Iter end) {
+	Iter min = beg;
+	while (beg != end) {
+		if (*beg < *min)
+			min = beg;
+		++beg;
+	}
+	return min;
+}
+
+int main() {
+	vector<int> v{ 1, 3, 5, 7, 9 };
+
+	cout << *my_min_element(v.begin(), v.end()) << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 12:07:16 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<string>
+#include <vector>
+#include<algorithm>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+template<class Iter, class Dest>
+void my_copy(Iter b, Iter e, Dest cp) {
+	while (b != e) {
+		*cp++ = *b++;
+	}
+}
+
+int main() {
+	// copy 알고리즘 함수는 하나의 구간을 다른 구간으로 복사한다.
+	vector<int> v1{ 1,3,5,7,9 };
+	vector<int> v2(v1.size());
+
+	//copy(어디서, 어디까지, 어디로);
+	my_copy(v1.begin(), v1.end(), v2.begin());
+
+	for (auto d : v2)
+		cout << d << " ";
+	cout << endl;
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Apr 20 12:16:47 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 04월 11일
+//
+// 6장
+// 표준 템플릿 라이브러리(STL)
+// 컨테이너
+// 이터레이터
+// 알고리즘
+//---------------------------------------------------------------------------
+#include <iostream>
+#include<string>
+#include <vector>
+#include<algorithm>
+#include <iterator>
+#include <set>
+#include "save.h"
+
+using namespace std;
+/*
+ 알고리즘(250쪽)
+ 알고리즘은 제네릭한 전역함수이다.
+ 알고리즘의 인자는 반복자 구간이다.
+ 함수의 이름은 동사(verb)이다.
+ 모든 알고리즘이 항상 효율적일 수는 없다.
+ */
+template<class Iter, class Dest>
+void my_copy(Iter b, Iter e, Dest cp) {
+	while (b != e) {
+		*cp.operator*() = b.operator*();		// *cp++ = *b++;
+		cp.operator++(123);					// cp++;
+		b.operator++(333);					// b++;
+	}
+}
+
+int main() {
+	// copy 알고리즘 함수는 하나의 구간을 다른 구간으로 복사한다.
+	vector<int> v1{ 1,3,5,7,9 };
+	vector<int> v2;
+
+	//copy(어디서, 어디까지, 어디로);
+	//my_copy(v1.begin(), v1.end(), v2.begin());
+	my_copy(v1.begin(), v1.end(), back_inserter(v2));
+	for (auto d : v2)
+		cout << d << " ";
+	cout << endl;
+
+	save();
+}

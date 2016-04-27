@@ -1,43 +1,49 @@
 //---------------------------------------------------------------------------
-// 2016년 04월 11일
+// 2016년 04월 27일	( 8주 2일)
 //
-// 6장
-// 표준 템플릿 라이브러리(STL)
-// 컨테이너
-// 이터레이터
-// 알고리즘
 //---------------------------------------------------------------------------
 #include <iostream>
+#include<string>
+#include <vector>
+#include <iterator>
 #include "save.h"
 
 using namespace std;
-/*
- 반복자(iterator)
- 컨테이너가 자신의 원소를 순회할 수 있도록 제공하는
- 마치 포인터처럼 사용할 수 있는 인터페이스이다.
 
- 컨테이너의 멤버함수
-		begin()	- 컨테이너의 처음 원소를 가리킨다
-		end()		- 컨테이너의 마지막 원소를 하나 지난 위치를 가리킨다
+template <class Iter, class Dest>
+void my_copy(Iter b, Iter e, Dest d) {
+	while (b != e) {
+		/*d.operator++(123).operator*()
+			= b.operator++(456).operator*();*/
+		*d++ = *b++;
+	}
+}
+class my_class {
+public:
+	//operator*() { }
+};
 
- 반복자로 할 수 있는 연산
-		*		-	역참조(derefencing operator)
-		++		-	다음 원소로 이동한다
-		==		-	반복자끼리 비교한다.
-
- 반복자의 종류(category)
-
- STL 표준 컨테이너가 제공하는 반복자는 다음 카테고리 중 하나이다
- 1. 순방향(forward) 반복자								- forward_list
- 2. 양방향(bidirectional) 반복자							- list
- 3. 랜덤 억세스(random access) 반복자				- array, vector, deque
- 
- 그 외에
- 4. 입력반복자
- 5. 출력반복자
-
- */
 int main() {
+	vector<int> v{ 1,2,3,4,5 };
+	vector<int> v2;
 
-	//save();
+	/*my_copy(v.begin(), v.end(), back_inserter(v2));
+	my_copy(v.begin(), v.end(), ostream_iterator<int>(cout, "\n"));*/
+
+	/*for (auto d : v2)
+		cout << d << endl;*/
+
+	back_insert_iterator<vector<int>> p(v2);
+	*p = 333; // p.operator*(333)
+				// {
+				//		v2.push_back(333);
+				// }
+
+	cout << v2[0] << endl;
+
+	// 세 번째 인자인 back_inserter은 반복자 어댑터이다.
+	// 반복자에 요구되는 동작인 *, ++, == 등을 구현한 클래스 이다.
+	// 백인서터는 값을 쓰려는 동작을 값을 삽입하는 동작으로 구현한다.
+
+	save();
 }
