@@ -4,14 +4,13 @@
 using namespace std;
 
 template <class T> // 아무 자료형이나 상관이 없게 만드는 방법,
-void change(T& a, T& b){ // 변수를 복사하지 말고 사용하자.
-
+void change(T& a, T& b) { // 변수를 복사하지 말고 사용하자.
 	T temp = a;
 	a = b;;
 	b = temp;
 }
 
-class Monster{
+class Monster {
 private:
 	string name;
 	int num;
@@ -28,13 +27,12 @@ public:
 	//------------------------------------------------
 };
 
-ostream& operator << (ostream& out, const Monster& m){
+ostream& operator << (ostream& out, const Monster& m) {
 	out << m.getName() << " - " << m.getNum() << endl;
 	return out; // out put stream
 }
 
-
-int main(){
+int main() {
 	/*
 	//int n{ 10 };
 	//int & r = n; //레퍼런스

@@ -1,55 +1,32 @@
 //---------------------------------------------------------------------------
-// 2016년 05월 02일 (9주 1일)
+// 2016년 05월 04일 (9주 1일)
 //
+// 알고리즘 조작(269)
+// 알고리즘과 멤버함수 비교
+// 알고리즘 인자로서의 함수
+// 람다 사용하기
+// 함수객체
+// 선정의 함수객체와 바인더
 //---------------------------------------------------------------------------
 #include <iostream>
-#include<string>
-#include <vector>
+#include <string>
+#include <set>
+#include <functional>
+#include <algorithm>
 #include <iterator>
-#include <list>
+#include<deque>
 #include "save.h"
 
 using namespace std;
 
-template <class Iter, class Dest>
-void my_copy(Iter b, Iter e, Dest d) {
-	while (b != e) {
-		//d.operator*() = b.operator*();
-		(d.operator*()).operator = (b.operator*());
-		// d++;
-		d.operator++();
-		// b++;
-		b.operator++();
-	}
-}
-
-template <class Cont>
-class my_back_inserter {
-	Cont* cont;
-public:
-	my_back_inserter(Cont& v) {
-		cont = &v;
-	}
-	my_back_inserter& operator*() {
-		return *this;
-	}
-	void operator++() {}
-	// 실제 표준 back_inserter하는 일은 이 함수에서 일어남
-	void operator=(int n) {
-		cont->push_back(n);
-	}
-};
+// 바인더 (293)
 
 int main() {
-	vector<int> v{ 1,2,3,4,5 };
-	list<int> v2;
+	set<int, greater<int>> coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	deque<int> coll2;
 
-	my_back_inserter<list<int>> p(v2);
+	// transform을 써서 coll1의 모든 원소를 coll2로 옮기면서 10을 곱한다.
+	//transform(coll1.begin(), coll1.end(), back_inserter(coll2), coll
 
-	my_copy(v.begin(), v.end(), p);
-
-	for (auto d : v2)
-		cout << d << endl;
-
-	save();
+		//save();
 }

@@ -50,7 +50,7 @@ void CompareData();															// 맵 변동이 되었는지 확인하는 체크 툴
 void Draw_Map(HDC, HDC, HBITMAP, int, int);								// 배열의 숫자를 맵으로 그려주는 부분
 void NewGame();																// 새로운 게임을 시작할때 호출하는 함수
 void WinGame(HWND);															// 목표점수에 도달했는지 확인후, 도달했을경우 메시지창 띄우기
-string transArr(int(*)[Game_Height]);
+string transArr(int [][Game_Height]);
 
 // -----------------------------------------------------------------------------------------------------------
 // 위, 아래, 왼쪽, 오른쪽 숫자 움직이기
@@ -426,9 +426,8 @@ void Down_Num(int lineData) {
 	}
 }
 
-string transArr(int (*arr)[Game_Height] ) {
-	string arr_savedata = "0";
-	int temp;
+string transArr(int arr[][Game_Height] ) {
+	string arr_savedata = "";
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int j = 0; j < Game_Width; ++j) {
 			arr_savedata += arr[j][i];

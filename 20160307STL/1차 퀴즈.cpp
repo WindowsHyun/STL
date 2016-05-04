@@ -14,7 +14,6 @@ int cmp(const void* p, const void *q) {
 	return 1;
 }
 
-
 #define MAX_COUNT 10000000
 
 int main() {
@@ -38,7 +37,7 @@ int main() {
 	for (int i = 0; i < 10000000; ++i) {
 		out << a[i] << " ";
 	}
-	
+
 	//문제5. 정렬결과를 파일에서 읽은후 앞에서 100개를 화면에 출력하는 코드를 작성하라.
 	ifstream in("학번.txt");
 	int x[100];
@@ -49,5 +48,4 @@ int main() {
 	for (int i = 0; i < 100; ++i) {
 		cout << x[i] << " ";
 	}
-	
 }
