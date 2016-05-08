@@ -40,7 +40,6 @@ typedef struct gameDataXY {
 	int by;
 }gameDataXY;																	// 게임 위치 저장
 
-
 bool GameOver();																// False는 Game Not End, True 는 Game End
 
 void Check_4Way(int, HWND);													// 방향 체크후 동작 & HWND추가 이유는 WinGame 에서 hwnd를 사용하기위해
@@ -66,7 +65,6 @@ void Left_Num(int);			// 숫자를 왼쪽으로 모두 밀기
 void Right_PlusNum(int);	// 오른쪽으로 밀면서 같은 숫자일경우 더하기
 void Right_Num(int);		// 숫자를 오른쪽으로 모두 밀기
 // -----------------------------------------------------------------------------------------------------------
-
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam);
 
@@ -116,11 +114,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 #endif
 
 	switch (iMsg) {
-
 	case WM_COMMAND:
 		srand((unsigned int)time(NULL));
 		switch (LOWORD(wParam)) {
-
 		case ID_GAME_NEWGAME:
 			NewGameAnswer = MessageBox(hwnd, "정말로 게임을 다시 시작하실껀가요?", "WindowsHyun 2048", MB_OKCANCEL);
 
@@ -152,30 +148,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 				PostQuitMessage(0);
 			}
 			break;
-
-
 		}
 		InvalidateRgn(hwnd, NULL, FALSE);
 		break;
-
 
 	case WM_CHAR:
 		if (wParam == 'a') {
 			//auto savesql = saveData.begin();
 			system("cls");
-			for (auto savesql = saveData.begin(); savesql != saveData.end(); ++savesql) {
-
-				for (int i = 0; i < Game_Height; ++i) {
-					for (int j = 0; j < Game_Width; ++j) {
-						cout << savesql->first<< " ";
-					}
-					cout << endl;
-				}
-				cout << endl;
+			for (auto d : saveData) {
+				cout << d.first << endl;
 			}
-
-
 		}
+		cout << endl << endl;
 		break;
 
 	case WM_KEYDOWN:
@@ -244,7 +229,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 		InvalidateRgn(hwnd, NULL, FALSE);
 		break;
 
-
 	case WM_MOUSEMOVE:
 		mX = LOWORD(lParam);
 		mY = HIWORD(lParam);
@@ -272,20 +256,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 
 		for (int y = 0; y < Game_Height; ++y) {
 			for (int x = 0; x < Game_Width; ++x) {
-
 				if (gameDataXY[y][x].bx < mX && mX < 10 + gameDataXY[y][x].bx + 130 &&
 					gameDataXY[y][x].by < mY && mY < 10 + gameDataXY[y][x].by + 130) {
 					click_Y = y; click_X = x;								// X, Y 좌표를 저장해준다.
 					temp_X = x, temp_Y = y;							// 마우스가 움직이면 자동으로 X,Y 좌표도 바뀐다 그러므로 임시 위치로 저장
 				}
-
 			}
 		}
 
-
 		InvalidateRgn(hwnd, NULL, FALSE);
 		break;
-
 
 	case WM_CREATE:
 		srand((unsigned int)time(NULL) + GetTickCount());
@@ -304,7 +284,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 		image_Number[512] = (HBITMAP)LoadBitmap(((LPCREATESTRUCT)lParam)->hInstance, MAKEINTRESOURCE(IDB_BITMAP10));				// 숫자 512
 		image_Number[1024] = (HBITMAP)LoadBitmap(((LPCREATESTRUCT)lParam)->hInstance, MAKEINTRESOURCE(IDB_BITMAP11));			// 숫자 1024
 		image_Number[2048] = (HBITMAP)LoadBitmap(((LPCREATESTRUCT)lParam)->hInstance, MAKEINTRESOURCE(IDB_BITMAP12));			// 숫자 2048
-
 
 		put_Key = 0;		// 4 = Left, 8 = UP, 6 = Right, 2 = Down
 
@@ -377,7 +356,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 
 		BitBlt(hdc, 0, 0, rt.right, rt.bottom, mem0dc, 0, 0, SRCCOPY);
 
-
 		SelectObject(mem0dc, hbmMemOld); //-4
 		DeleteObject(hbmMem); //-3
 		DeleteObject(hbmMemOld); //-3
@@ -387,20 +365,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 		EndPaint(hwnd, &ps);
 		break;
 
-
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-
 	}
 	return DefWindowProc(hwnd, iMsg, wParam, lParam);
 }
 
-
 void Down_PlusNum(int lineData) {
 	for (int i = Game_Height - 1; i >= 0; --i) {
 		if (gameData[lineData][i] == gameData[lineData][i - 1] && i - 1 >= 0) {
-
 			if (gameData[lineData][i] + gameData[lineData][i - 1] != 0) {
 				realMove = 1;
 			}
@@ -416,7 +390,6 @@ void Down_PlusNum(int lineData) {
 void Down_Num(int lineData) {
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int i = Game_Height - 1; i >= 0; --i) {
-
 			if (gameData[lineData][i] == 0 && i - 1 >= 0) {
 				int temp_num = gameData[lineData][i];
 				gameData[lineData][i] = gameData[lineData][i - 1];
@@ -426,23 +399,26 @@ void Down_Num(int lineData) {
 	}
 }
 
-string transArr(int (*arr)[Game_Height] ) {
-	string arr_savedata = "0";
+string transArr(int(*arr)[Game_Height]) {
+	string arr_savedata = "";
 	int temp;
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int j = 0; j < Game_Width; ++j) {
-			arr_savedata += arr[j][i];
+			char self[10];
+			string data = itoa(arr[j][i], self, 10);
+			data += " ";
+			arr_savedata += data;
 		}
 		arr_savedata += "\n";
+		//arr_savedata += "\n";
 	}
-	cout << arr_savedata << endl;
+	//cout << arr_savedata << endl;
 	return arr_savedata;
 }
 
 void Up_PlusNum(int lineData) {
 	for (int i = 0; i < Game_Height; ++i) {
 		if (gameData[lineData][i] == gameData[lineData][i + 1] && i + 1 < 4) {
-
 			if (gameData[lineData][i] + gameData[lineData][i + 1] != 0) {
 				realMove = 1;
 			}
@@ -458,7 +434,6 @@ void Up_PlusNum(int lineData) {
 void Up_Num(int lineData) {
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int i = 0; i < Game_Height; ++i) {
-
 			if (gameData[lineData][i] == 0 && i + 1 < 4) {
 				int temp_num = gameData[lineData][i];
 				gameData[lineData][i] = gameData[lineData][i + 1];
@@ -471,7 +446,6 @@ void Up_Num(int lineData) {
 void Left_PlusNum(int lineData) {
 	for (int i = 0; i < Game_Height; ++i) {
 		if (gameData[i][lineData] == gameData[i + 1][lineData] && i + 1 < 4) {
-
 			if (gameData[i][lineData] + gameData[i + 1][lineData] != 0) {
 				realMove = 1;
 			}
@@ -487,7 +461,6 @@ void Left_PlusNum(int lineData) {
 void Left_Num(int lineData) {
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int i = 0; i < Game_Height; ++i) {
-
 			if (gameData[i][lineData] == 0 && i + 1 < 4) {
 				int temp_num = gameData[i][lineData];
 				gameData[i][lineData] = gameData[i + 1][lineData];
@@ -500,7 +473,6 @@ void Left_Num(int lineData) {
 void Right_PlusNum(int lineData) {
 	for (int i = Game_Height - 1; i >= 0; --i) {
 		if (gameData[i][lineData] == gameData[i - 1][lineData] && i - 1 >= 0) {
-
 			if (gameData[i][lineData] + gameData[i - 1][lineData] != 0) {
 				realMove = 1;
 			}
@@ -516,7 +488,6 @@ void Right_PlusNum(int lineData) {
 void Right_Num(int lineData) {
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int i = Game_Height - 1; i >= 0; --i) {
-
 			if (gameData[i][lineData] == 0 && i - 1 >= 0) {
 				int temp_num = gameData[i][lineData];
 				gameData[i][lineData] = gameData[i - 1][lineData];
@@ -571,7 +542,6 @@ void Check_4Way(int put_Key, HWND hwnd) {
 				gamePause = 1;
 			}
 		}
-
 	}
 }
 
@@ -589,8 +559,6 @@ bool GameOver() {
 
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int j = 0; j < Game_Width; ++j) {
-
-
 			if (put_Key == 8 || put_Key == 2) {
 				// 위, 아래 일경우
 				if (gameData[i][j] == gameData[i][j + 1] || gameData[i][j] == gameData[i][j - 1]) {
@@ -608,8 +576,6 @@ bool GameOver() {
 					}
 				}
 			}
-
-
 		}
 	}
 
@@ -619,7 +585,6 @@ bool GameOver() {
 	else {
 		return 1;	//True 게임 아직 진행중
 	}
-
 }
 
 void Draw_Map(HDC hdc, HDC memdc, HBITMAP hBit1, int X, int Y) {
@@ -642,7 +607,6 @@ re_Raise:
 	else {
 		gameData[dataX][dataY] = 2;
 	}
-
 }
 
 void CopyMapData() {
