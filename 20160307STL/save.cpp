@@ -12,7 +12,7 @@ void save();
 
 using namespace std;
 
-void save(){
+void save() {
 	// 현재 시각을 읽어온다.
 	chrono::system_clock::time_point tp = chrono::system_clock::now();
 	//auto tp = chrono::system_clock::now(); // 같은내용
@@ -24,7 +24,7 @@ void save(){
 
 	// 출력 파일을 연다.
 	//ofstream out("Build Data/C++Class 복습과 이동의 이해(0321).txt", ios::app);
-	ofstream out("Build Data/20160502.txt", ios::app);
+	ofstream out("Build Data/20160504.txt", ios::app);
 	out << "" << endl;
 	out << "---------------------------------------" << endl;
 	out << "2016년 1학기 STL" << endl;
@@ -39,5 +39,4 @@ void save(){
 	char c;
 	while (in.get(c))
 		out.put(c);
-
 }
