@@ -8,8 +8,10 @@
 #include <string>
 #include<fstream>
 #include <stdlib.h>
+#include <chrono>
 
 #include "resource.h"
+#include "base64.h"																// Base64 를 사용하기 위한 h 파일 불러오기
 #pragma comment(lib, "Msimg32.lib")										// TransparentBlt 사용하기 위해 라이브러리 호출..
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -18,7 +20,10 @@
 #define clear_TotalData 2048													// 게임 마지막 숫자
 
 using namespace std;
-using savePair = pair<string, int>;
+using savePair = pair<string, chrono::duration<double>>;
+
+chrono::duration<double> dura;
+chrono::system_clock::time_point start = chrono::system_clock::now();
 
 int clear_Total = 2048;															// 게임 마지막 숫자
 int gameData[Game_Width][Game_Height];									// 게임판 설정하기
@@ -108,6 +113,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 	static int temp_HighNum = 2;
 	static RECT rt;
 
+	//----------------------------------------------------------------------------------------------
+	OPENFILENAME OFN;
+	OPENFILENAME SFN;
+	ofstream savefile;
+	char temp[100], lpstrFile[100] = "";
+	char filter[] = "WindowsHyun Save File\0*.hyun\0";
+	//----------------------------------------------------------------------------------------------
+
 #ifdef _DEBUG
 	AllocConsole();
 	freopen("CONOUT$", "wt", stdout);
@@ -141,6 +154,38 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 			target_Score = 2048;
 			break;
 
+		case ID_SAVE_Data:
+			// 데이터 저장
+			memset(&SFN, 0, sizeof(OPENFILENAME));
+			SFN.lStructSize = sizeof(OPENFILENAME);
+			SFN.hwndOwner = hwnd;
+			SFN.lpstrFilter = filter;
+			SFN.lpstrFile = lpstrFile;
+			SFN.nMaxFile = 256;
+			//SFN.lpstrInitialDir = ".";
+			SFN.lpstrDefExt = ".hyun";
+
+			if (GetSaveFileName(&SFN) != 0) {
+				wsprintf(temp, "%s\n위치에 파일을 저장하겠습니까?", SFN.lpstrFile);
+				int answer = MessageBox(hwnd, temp, "Save Selection", MB_YESNO);
+
+				if (answer == IDYES) {
+					savefile.open(SFN.lpstrFile);
+					for (auto d : saveData) {
+						char *cstr = new char[d.first.length() + 1];								// string을 char로 변환하기 위하여 동적할당을 한다.
+						strcpy(cstr, d.first.c_str());													// cpy를 통해 cstr에다가 d.first 스트링 파일을 복사
+						string encodeData = base64e(cstr, strlen(cstr));						// encodeData에 다가 base64로 인코딩 하여 저장
+						savefile << encodeData << '\t' << d.second.count() << endl;
+					}
+					savefile.close();
+				}
+			}
+			break;
+
+		case ID_Load_Data:
+			// 데이터 불러오기
+			break;
+
 		case ID_GAME_EXITGAME:
 			NewGameAnswer = MessageBox(hwnd, "정말로 게임을 종료하실껀가요?", "WindowsHyun 2048", MB_OKCANCEL);
 
@@ -158,9 +203,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 			system("cls");
 			for (auto d : saveData) {
 				cout << d.first << endl;
+				cout << "시간 : " << d.second.count() << endl;
 			}
 		}
-		cout << endl << endl;
+		cout << endl;
 		break;
 
 	case WM_KEYDOWN:
@@ -168,25 +214,25 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 			put_Key = 6, realMove = 0;
 			Check_4Way(put_Key, hwnd);
 			gameArr = transArr(gameData);
-			saveData.push_back(make_pair(gameArr, 0));
+			saveData.push_back(make_pair(gameArr, (chrono::system_clock::now() - start)));
 		}
 		else if (wParam == VK_LEFT) {
 			put_Key = 4, realMove = 0;
 			Check_4Way(put_Key, hwnd);
 			gameArr = transArr(gameData);
-			saveData.push_back(make_pair(gameArr, 0));
+			saveData.push_back(make_pair(gameArr, (chrono::system_clock::now() - start)));
 		}
 		else if (wParam == VK_UP) {
 			put_Key = 8, realMove = 0;
 			Check_4Way(put_Key, hwnd);
 			gameArr = transArr(gameData);
-			saveData.push_back(make_pair(gameArr, 0));
+			saveData.push_back(make_pair(gameArr, (chrono::system_clock::now() - start)));
 		}
 		else if (wParam == VK_DOWN) {
 			put_Key = 2, realMove = 0;
 			Check_4Way(put_Key, hwnd);
 			gameArr = transArr(gameData);
-			saveData.push_back(make_pair(gameArr, 0));
+			saveData.push_back(make_pair(gameArr, (chrono::system_clock::now() - start)));
 		}
 		InvalidateRgn(hwnd, NULL, FALSE);
 		break;
@@ -292,7 +338,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 		}
 
 		gameArr = transArr(gameData);
-		saveData.push_back(make_pair(gameArr, 0));
+		saveData.push_back(make_pair(gameArr, (chrono::system_clock::now() - start)));
 		break;
 
 	case WM_PAINT:
@@ -401,7 +447,6 @@ void Down_Num(int lineData) {
 
 string transArr(int(*arr)[Game_Height]) {
 	string arr_savedata = "";
-	int temp;
 	for (int i = 0; i < Game_Height; ++i) {
 		for (int j = 0; j < Game_Width; ++j) {
 			char self[10];
@@ -409,7 +454,7 @@ string transArr(int(*arr)[Game_Height]) {
 			data += " ";
 			arr_savedata += data;
 		}
-		arr_savedata += "\n";
+		//arr_savedata += "\n";
 		//arr_savedata += "\n";
 	}
 	//cout << arr_savedata << endl;
@@ -640,6 +685,7 @@ void NewGame() {
 		Seed_RandNum(); //초기 블럭 2개 설정!
 	}
 	target_Score = 2048, now_HighScore = 2;
+	start = chrono::system_clock::now();
 }
 
 void WinGame(HWND hwnd) {
