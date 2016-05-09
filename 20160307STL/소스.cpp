@@ -1,32 +1,31 @@
 //---------------------------------------------------------------------------
-// 2016년 05월 04일 (9주 1일)
+// 2016년 05월 09일
 //
-// 알고리즘 조작(269)
-// 알고리즘과 멤버함수 비교
-// 알고리즘 인자로서의 함수
-// 람다 사용하기
-// 함수객체
-// 선정의 함수객체와 바인더
+// 7장 STL 컨테이너
 //---------------------------------------------------------------------------
 #include <iostream>
 #include <string>
-#include <set>
-#include <functional>
+#include <fstream>
 #include <algorithm>
 #include <iterator>
-#include<deque>
 #include "save.h"
 
 using namespace std;
 
-// 바인더 (293)
+// 소스.cpp 의 모든 단어 순서를 거꾸로 출력하라.
+// using - > gnisu
 
 int main() {
-	set<int, greater<int>> coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-	deque<int> coll2;
-
-	// transform을 써서 coll1의 모든 원소를 coll2로 옮기면서 10을 곱한다.
-	//transform(coll1.begin(), coll1.end(), back_inserter(coll2), coll
-
-		//save();
+	string s;
+	ifstream in( "소스.cpp" );
+	int n{ 0 };
+	while ( in >> s ) {
+		// 한 단어 읽음 s 에다가
+		copy( s.rbegin(), s.rend(), ostream_iterator<char>(cout, "") );
+		cout << endl;
+		n++;
+		//cout << s << endl;
+	}
+	cout << "몇개 인가 : " << n << endl;
+	save();
 }

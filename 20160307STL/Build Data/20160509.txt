@@ -1,0 +1,247 @@
+
+---------------------------------------
+2016년 1학기 STL
+Mon May  9 10:43:53 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 09일
+//
+// 알고리즘 조작(269)
+// 알고리즘과 멤버함수 비교
+// 알고리즘 인자로서의 함수
+// 람다 사용하기
+// 함수객체
+// 선정의 함수객체와 바인더
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <set>
+#include <functional>
+#include <algorithm>
+#include <iterator>
+#include<deque>
+#include "save.h"
+
+using namespace std;
+
+// 바인더 (293)
+// 함수 어댑터 이다.
+// 함수의 인자수를 바꿔 새로운 함수를 만들어 낸다.
+
+int main() {
+	// 함수객체는 ()를 오버로딩한 클래스의 객체이다.
+	// STL에서는 미리 여러개의 함수객체를 만들어 놓았다.
+	// 10장(546Page)에는 이러한 선정의된 함수객체들이 나와있다.
+	// - #include<functional> 을 사용한다.
+	// 그 중에
+	//		multiplies<type>() -> param1 * param2
+
+	multiplies<int> m;
+	//ex) m(2, 3);
+	cout << m(2, 3) << endl;
+
+	/*set<int, greater<int>> coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	deque<int> coll2;
+	*/
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May  9 10:51:59 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 09일
+//
+// 알고리즘 조작(269)
+// 알고리즘과 멤버함수 비교
+// 알고리즘 인자로서의 함수
+// 람다 사용하기
+// 함수객체
+// 선정의 함수객체와 바인더
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <set>
+#include <functional>
+#include <algorithm>
+#include <iterator>
+#include<deque>
+#include "save.h"
+
+using namespace std;
+using namespace std::placeholders;
+
+// 바인더 (293)
+// 함수 어댑터 이다.
+// 함수의 인자수를 바꿔 새로운 함수를 만들어 낸다.
+
+int main() {
+	// 함수객체는 ()를 오버로딩한 클래스의 객체이다.
+	// STL에서는 미리 여러개의 함수객체를 만들어 놓았다.
+	// 10장(546Page)에는 이러한 선정의된 함수객체들이 나와있다.
+	// - #include<functional> 을 사용한다.
+	// 그 중에
+	//		multiplies<type>() -> param1 * param2
+
+	multiplies<int> m;
+	// 현재 m은 인자 2개로 호출하는 호출가능 타입니다.
+	// 바인더는 인자 2개가 필요한 m을 다른 인자갯수를 갖는 호출가능타입으로 만들수 있다.
+
+	auto f = bind(m, _1, 10);
+
+	cout << f(2) << endl;
+
+	/*set<int, greater<int>> coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	deque<int> coll2;
+	*/
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May  9 11:14:20 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 09일
+//
+// 알고리즘 조작(269)
+// 알고리즘과 멤버함수 비교
+// 알고리즘 인자로서의 함수
+// 람다 사용하기
+// 함수객체
+// 선정의 함수객체와 바인더
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <set>
+#include <functional>
+#include <algorithm>
+#include <iterator>
+#include<deque>
+#include "save.h"
+
+using namespace std;
+using namespace std::placeholders;
+
+// 바인더 (293)
+// 함수 어댑터 이다.
+// 함수의 인자수를 바꿔 새로운 함수를 만들어 낸다.
+
+//template <class Iter, class Dest, class Call>
+//xtransform(Iter b, Iter e, Dest d, Call c)
+//{
+//	while (b != e) {
+//		d.push_back(c(*b));
+//		b++;
+//	}
+//}
+
+
+int main() {
+	set<int, greater<int>> coll = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+	deque<int> coll2;
+
+	//multiplies<int> m;
+	//auto f = bind(multiplies<int>(), _1, 10);
+	/*
+	transform(coll.begin(), coll.end(), back_inserter(coll2),
+		// 호출 가능객체가 들어가야 하는 자리
+		// 이 함수는 coll.begin()의 값을 역참조해서
+		// 이 호출 가능 객체로 전달한다.
+		// 이 객체는 이 값을 받아 *10 하여 리턴한다.
+		// 이 문제를 multiplies 와 bind를 이용하여 해결하라
+		bind(multiplies<int>(), _1, 10)
+	);
+	*/
+	transform(coll.begin(), coll.end(), back_inserter(coll2), [](int n) {
+		return n * 10;
+	}
+	);
+
+	for (int d : coll2)
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May  9 12:01:09 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 09일
+//
+// 알고리즘 조작(269)
+// 알고리즘과 멤버함수 비교
+// 알고리즘 인자로서의 함수
+//			조건자(Predicates)
+//				- bool 값을 리턴하는 호출가능타입으로 알고리즘의 인자로 사용도미
+//					주로 정렬이나 탐색에 사용됨
+//
+// 람다 사용하기
+//			c++ 컴파일러는 일반 함수에 비해 람다를 최적화할 가능성이 크다
+// 함수객체
+//			() 연산자를 overloading한 클래스 상태를 갖는다 - closure(클로져)
+//			자신만의 자료형을 갖는다
+//			대체로 함수객체는 일반함수보다 빠르다
+// 선정의 함수객체와 바인더
+//
+//	6.11 컨테이너 원소 - requirements
+//		1. 원소는 복사 또는 이동 가능해야 한다
+//		2. 할당 연산자로 할당될 수 있어야 한다.
+//		3. 소멸자로 소멸될 수 있어야 한다.
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include "save.h"
+
+using namespace std;
+
+class Game {
+public:
+
+};
+
+int main() {
+	vector<Game> v;
+	v.push_back( Game() );
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May  9 12:20:18 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 09일
+//
+// 7장 STL 컨테이너
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+
+// 소스.cpp 의 모든 단어 순서를 거꾸로 출력하라.
+// using - > gnisu
+
+int main() {
+	string s;
+	ifstream in( "소스.cpp" );
+	int n{ 0 };
+	while ( in >> s ) {
+		// 한 단어 읽음 s 에다가
+		copy( s.rbegin(), s.rend(), ostream_iterator<char>(cout, "") );
+		cout << endl;
+		n++;
+		//cout << s << endl;
+	}
+	cout << "몇개 인가 : " << n << endl;
+	save();
+}
