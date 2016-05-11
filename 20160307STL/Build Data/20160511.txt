@@ -1,0 +1,135 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed May 11 10:56:17 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 11일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+class Dog {
+	int age{};
+public:
+	Dog( int n ) : age( n ){}
+	int getAge() const {
+		return age;
+	};
+};
+
+bool f( const Dog& d ) {
+	if ( d.getAge() >= 7 )
+		return true;
+	return false;
+}
+
+class Test {
+public:
+	bool operator()( const Dog&d ) {
+		return d.getAge() >= 7;
+	}
+};
+
+int main() {
+	vector<Dog> v{ 5, 7, 3, 6, 9 };
+	// 나이가 7살 이상인 조건에 맞는 객체가 몇 개 있는지 찾아보세요.
+	// 1. 일반함수를 조건자로 사용
+	int n = count_if( v.begin(), v.end(), f );
+	cout << n << endl;
+	// 2. 람다를 조건자로 사용
+	n = count_if( v.begin(), v.end(), []( const Dog& d ) {
+		return d.getAge() >= 7;
+	} );
+	cout << n << endl;
+	// 3. 함수객체를 조건자로 사용
+	n = count_if( v.begin(), v.end(), Test() );
+	cout << n << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed May 11 12:02:36 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 11일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+class Dog {
+	int age{};
+public:
+	Dog() {}
+	Dog( int n ) : age( n ){}
+};
+
+int main() {
+	vector<Dog> v{ 1, 2, 3, 4, 5 };
+	//vector<Dog> u( move( v ) );
+	//vector<Dog>  u = (vector<Dog>&&)v;
+	vector<Dog> u{ 1, 2, 3, 4, 5, 6, 7 };
+	//u = move( v );
+
+	//v.~vector<Dog>();
+
+	v.erase( v.begin(), v.end() );
+	cout << v.capacity() << endl;
+	// erase 로는 지워지지 않는다
+	/*vector<Dog> u;
+	u.swap( v );*/
+	// swap 을 하여 메모리를 해제한다.
+
+	cout << v.size() << endl;
+	
+	cout << u.size() << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed May 11 12:03:54 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 11일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+class Dog {
+	int age{};
+public:
+	Dog() {}
+	Dog( int n ) : age( n ){}
+};
+
+int main() {
+	vector<int> s{ 1, 2, 3, 4, 5 };
+
+	vector<int> v( s.rbegin(), s.rend() );
+
+	for ( int d : v )
+		cout << d << endl;
+
+	save();
+}

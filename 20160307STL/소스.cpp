@@ -1,31 +1,31 @@
 //---------------------------------------------------------------------------
-// 2016년 05월 09일
+// 2016년 05월 11일
 //
-// 7장 STL 컨테이너
+// 다음 주 수(5.18) 퀴즈 2 예정
 //---------------------------------------------------------------------------
 #include <iostream>
-#include <string>
-#include <fstream>
+#include <vector>
 #include <algorithm>
 #include <iterator>
 #include "save.h"
 
 using namespace std;
 
-// 소스.cpp 의 모든 단어 순서를 거꾸로 출력하라.
-// using - > gnisu
+class Dog {
+	int age{};
+public:
+	Dog() {}
+	Dog( int n ) : age( n ){}
+};
 
 int main() {
-	string s;
-	ifstream in( "소스.cpp" );
-	int n{ 0 };
-	while ( in >> s ) {
-		// 한 단어 읽음 s 에다가
-		copy( s.rbegin(), s.rend(), ostream_iterator<char>(cout, "") );
-		cout << endl;
-		n++;
-		//cout << s << endl;
-	}
-	cout << "몇개 인가 : " << n << endl;
-	save();
+	//키보드에서 원하는 만큼 숫자를 입력해서 v를 만들어 주세요.
+	// 그리고 합을 출력해 주세요.
+	vector<int> v(istream_iterator<int>(cin), istream_iterator<int>());
+	int sum{};
+	for ( int d : v )
+		sum+=d;
+
+	cout << sum << endl;
+	//save();
 }
