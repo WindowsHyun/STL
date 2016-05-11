@@ -21,7 +21,8 @@ public:
 int main() {
 	//키보드에서 원하는 만큼 숫자를 입력해서 v를 만들어 주세요.
 	// 그리고 합을 출력해 주세요.
-	vector<int> v(istream_iterator<int>(cin), istream_iterator<int>());
+	vector<int> v { istream_iterator<int>( cin ), istream_iterator<int>() };
+	// 초기화 문장으로
 	int sum{};
 	for ( int d : v )
 		sum+=d;
