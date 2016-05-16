@@ -1,32 +1,35 @@
 //---------------------------------------------------------------------------
-// 2016년 05월 11일
+// 2016년 05월 16일
 //
 // 다음 주 수(5.18) 퀴즈 2 예정
 //---------------------------------------------------------------------------
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
+#include <list>
 #include "save.h"
 
 using namespace std;
+/*
+ 컨테이너 기능 - 306쪽
+ 1. 모든 컨테이너는 값 문맥을 제공한다
+ 2. 내부 원소는 특정 순서대로 저장된다.
+ 3. 모든 연산은 일반적으로 오류를 검사하지 않는다.
+*/
 
-class Dog {
-	int age{};
+class Game {
+	int n;
 public:
-	Dog() {}
-	Dog( int n ) : age( n ){}
+	Game( int n ) : n( n ) {}
+	operator int() {
+		return n;
+	}
 };
 
 int main() {
-	//키보드에서 원하는 만큼 숫자를 입력해서 v를 만들어 주세요.
-	// 그리고 합을 출력해 주세요.
-	vector<int> v { istream_iterator<int>( cin ), istream_iterator<int>() };
-	// 초기화 문장으로
-	int sum{};
-	for ( int d : v )
-		sum+=d;
-
-	cout << sum << endl;
+	list<Game> c1{ 1, 2, 3, 7, 8, 9 };
+	list<Game> c2{ 4, 5, 6 };
+	/*
+	리스트는 노드 기반의 컨테이너이다.
+	c2를 c1의 3, 7 원소사이에 끼워 넣은 것쯤은 일도 아니다.
+	*/
 	//save();
 }
