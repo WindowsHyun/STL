@@ -1,35 +1,34 @@
 //---------------------------------------------------------------------------
-// 2016년 05월 16일
+// 2016년 05월 18일
 //
 // 다음 주 수(5.18) 퀴즈 2 예정
 //---------------------------------------------------------------------------
 #include <iostream>
-#include <list>
+#include <set>
+#include <algorithm>
 #include "save.h"
 
 using namespace std;
-/*
- 컨테이너 기능 - 306쪽
- 1. 모든 컨테이너는 값 문맥을 제공한다
- 2. 내부 원소는 특정 순서대로 저장된다.
- 3. 모든 연산은 일반적으로 오류를 검사하지 않는다.
-*/
-
 class Game {
 	int n;
 public:
 	Game( int n ) : n( n ) {}
-	operator int() {
+	int getN() const {
 		return n;
+	}
+	bool operator<(const Game& b ) const {
+		return n < b.n;
 	}
 };
 
+
+
 int main() {
-	list<Game> c1{ 1, 2, 3, 7, 8, 9 };
-	list<Game> c2{ 4, 5, 6 };
-	/*
-	리스트는 노드 기반의 컨테이너이다.
-	c2를 c1의 3, 7 원소사이에 끼워 넣은 것쯤은 일도 아니다.
-	*/
+	set<Game> s1{ 1, 2, 3,  7, 8, 9 };
+
+	for (const Game& d  : s1 )
+		cout << d.getN();
+	cout << endl;
+
 	//save();
 }

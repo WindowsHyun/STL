@@ -1,0 +1,197 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed May 18 10:48:36 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 18일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <list>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+class Game {
+	int n;
+public:
+	Game( int n ) : n( n ) {}
+	operator int() {
+		return n;
+	}
+};
+int main() {
+	list<Game> c1{ 1, 2, 3,  7, 8, 9 };
+	list<Game> c2{ 4, 5, 6 };
+
+	auto p = find( c1.begin(), c1.end(), 7 );
+
+	c1.splice( p, c2, c2.begin(), c2.end() );
+
+	for ( auto d : c1 )
+		cout << d;
+	cout << endl;
+	for ( auto d : c2 )
+		cout << d;
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed May 18 10:50:05 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 18일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <list>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+class Game {
+	int n;
+public:
+	Game( int n ) : n( n ) {}
+	operator int() {
+		return n;
+	}
+};
+int main() {
+	list<Game> c1{ 1, 2, 3,  7, 8, 9 };
+	list<Game> c2{ 4, 5, 6 };
+
+	auto p = find( c1.begin(), c1.end(), 7 );
+
+	c1.splice( p, c2);
+
+	for ( auto d : c1 )
+		cout << d;
+	cout << endl;
+	for ( auto d : c2 )
+		cout << d;
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed May 18 11:09:30 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 18일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+class Game {
+	int n;
+public:
+	Game( int n ) : n( n ) {}
+	int getN() const {
+		return n;
+	}
+};
+
+bool operator<( const Game& a, const Game& b ) {
+	return a.getN() < b.getN();
+}
+
+int main() {
+	set<Game> s1{ 1, 2, 3,  7, 8, 9 };
+
+	for ( auto d : s1 )
+		cout << d.getN();
+	cout << endl;
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed May 18 11:13:08 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 18일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+class Game {
+	int n;
+public:
+	Game( int n ) : n( n ) {}
+	int getN() const {
+		return n;
+	}
+	bool operator<(const Game& b ) const {
+		return n < b.n;
+	}
+};
+
+
+
+int main() {
+	set<Game> s1{ 1, 2, 3,  7, 8, 9 };
+
+	for ( auto d : s1 )
+		cout << d.getN();
+	cout << endl;
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed May 18 11:15:34 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 18일
+//
+// 다음 주 수(5.18) 퀴즈 2 예정
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+class Game {
+	int n;
+public:
+	Game( int n ) : n( n ) {}
+	int getN() const {
+		return n;
+	}
+	bool operator<(const Game& b ) const {
+		return n < b.n;
+	}
+};
+
+
+
+int main() {
+	set<Game> s1{ 1, 2, 3,  7, 8, 9 };
+
+	for (const Game& d  : s1 )
+		cout << d.getN();
+	cout << endl;
+
+	save();
+}
