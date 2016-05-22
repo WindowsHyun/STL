@@ -72,5 +72,20 @@
     <Image Include="bitmap12.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="bitmap13.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="C:\Users\Administrator\Desktop\left.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap14.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap15.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="bitmap16.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>

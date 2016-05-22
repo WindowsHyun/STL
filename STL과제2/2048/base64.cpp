@@ -62,9 +62,10 @@ std::string base64e(char *src, int length) {
 	return tempdata;
 }
 
-void base64d(char *src, char *result, int *length) {
+std::string base64d(char *src, int *length) {
 	int i, j = 0, src_length, blank = 0;
 	BF temp;
+	std::string tempdata = "                                                 ";
 
 	src_length = strlen(src);
 
@@ -82,12 +83,16 @@ void base64d(char *src, char *result, int *length) {
 		}
 		else temp.e1 = DecodeMimeBase64[src[i + 3]];
 
-		result[j] = temp.c3;
-		result[j + 1] = temp.c2;
-		result[j + 2] = temp.c1;
+		tempdata[j] = temp.c3;
+		tempdata[j + 1] = temp.c2;
+		tempdata[j + 2] = temp.c1;
 	}
 	*length = j - blank;
+
+
+	return tempdata;
 }
+
 
 /*
 √‚√≥ : https://kldp.org/node/109436
