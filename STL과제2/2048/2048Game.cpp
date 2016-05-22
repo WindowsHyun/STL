@@ -44,8 +44,8 @@ int iterPNum = 0;																// 얼마나 진행되었는지 확인하기 위해.
 
 vector<savePair> saveData;													// 세이브 파일 저장하기 위한 vector 저장
 vector<getPair> loadData;														// 세이브 파일 저장하기 위한 vector 저장
-vector<getPair>::iterator iterP = loadData.begin();
-void write_MapData(int(*)[Game_Height], string loadData);
+vector<getPair>::iterator iterP = loadData.begin();							// 불러온 vector의 위치를 알기 위하여
+void write_MapData(int(*)[Game_Height], string loadData);				// 불러온 데이터를 게임 데이터에 저장하기 위하여.
 
 typedef struct gameDataXY {
 	int bx;
@@ -543,7 +543,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM  lParam) {
 		TransparentBlt(mem0dc, 530, 460, 64, 64, mem1dc, 0, 0, 64, 64, RGB(255, 0, 0));
 		DeleteDC(mem1dc);
 
-		sprintf(debug_Char, "%d / %d", iterPNum, loadData.size());
+		sprintf(debug_Char, "%d / %d", iterPNum, loadData.size()-2);
 		TextOut(mem0dc, 640, 485, debug_Char, strlen(debug_Char));
 
 		mem1dc = CreateCompatibleDC(mem0dc);
