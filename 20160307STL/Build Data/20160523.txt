@@ -1,0 +1,59 @@
+
+---------------------------------------
+2016년 1학기 STL
+Mon May 23 11:57:27 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 23일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include <list>
+#include <utility>
+#include <algorithm>
+#include "save.h"
+
+using namespace std;
+
+// 컨테이너를 다양한 방식으로 생성할 수 있다.
+// 이동반복자를 사용해서 생성할 수 도 있다.
+
+int main() {
+	vector<string> v{ "2016년", "5월", "23일" };
+	list<string> l( make_move_iterator( v.begin() ), make_move_iterator( v.end() ) );
+
+	vector<string> v2( move( v ) );
+	cout << v.data() << endl;
+	cout << v2.data() << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May 23 12:08:28 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 23일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <string>
+#include <set>
+#include "save.h"
+
+using namespace std;
+
+// 컨테이너를 다양한 방식으로 생성할 수 있다.
+// 이동반복자를 사용해서 생성할 수 도 있다.
+
+int main() {
+	set<string> s{ "abc", "123", "여름30도" };
+	//set<string> v( move( s ) );
+	vector<string> v( make_move_iterator( s.begin() ), make_move_iterator( s.end() ) );
+
+	save();
+}

@@ -1,34 +1,28 @@
 //---------------------------------------------------------------------------
-// 2016년 05월 18일
+// 2016년 05월 23일
 //
-// 다음 주 수(5.18) 퀴즈 2 예정
 //---------------------------------------------------------------------------
 #include <iostream>
+#include <vector>
+#include <string>
 #include <set>
-#include <algorithm>
 #include "save.h"
 
 using namespace std;
+
 class Game {
 	int n;
-public:
-	Game( int n ) : n( n ) {}
-	int getN() const {
-		return n;
-	}
-	bool operator<(const Game& b ) const {
-		return n < b.n;
-	}
 };
 
-
+// set의 정렬기준은 두 가지로 설정할 수 있다.
+// 1. 탬플릿 파라미터
+// 2. 생성자 파라미터
 
 int main() {
-	set<Game> s1{ 1, 2, 3,  7, 8, 9 };
-
-	for (const Game& d  : s1 )
-		cout << d.getN();
-	cout << endl;
+	//1.
+	set<Game, less<Game>> s;
+	//2.
+	//set <int> s( 기준 );
 
 	//save();
 }

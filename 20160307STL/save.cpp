@@ -18,13 +18,13 @@ void save() {
 	//auto tp = chrono::system_clock::now(); // 같은내용
 
 	// 시간을 날짜로 바꾼다.
-	time_t tt = chrono::system_clock::to_time_t(tp);
-	string date = ctime(&tt);
-	date.resize(date.length() - 1); // 줄구분을 지워버린다.
+	time_t tt = chrono::system_clock::to_time_t( tp );
+	string date = ctime( &tt );
+	date.resize( date.length() - 1 ); // 줄구분을 지워버린다.
 
 	// 출력 파일을 연다.
 	//ofstream out("Build Data/C++Class 복습과 이동의 이해(0321).txt", ios::app);
-	ofstream out("Build Data/20160518.txt", ios::app);
+	ofstream out( "Build Data/20160523.txt", ios::app );
 	out << "" << endl;
 	out << "---------------------------------------" << endl;
 	out << "2016년 1학기 STL" << endl;
@@ -33,10 +33,10 @@ void save() {
 	out << "" << endl;
 
 	// 입력파일(소스.cpp)을 연다.
-	ifstream in("소스.cpp");
+	ifstream in( "소스.cpp" );
 
 	// 입력파일의 모든 내용을 출력파일에 쓴다.
 	char c;
-	while (in.get(c))
-		out.put(c);
+	while ( in.get( c ) )
+		out.put( c );
 }
