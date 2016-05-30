@@ -1,0 +1,278 @@
+
+---------------------------------------
+2016년 1학기 STL
+Mon May 30 10:49:20 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+반복자는 포인터를 일반화함으로써 c++ 프로그램에서 서로 다른 데이터구조를
+이용하더라도 일관적인 방법으로 프로그램 작업을 할 수 있도록 한다.
+
+알고리즘 함수 distance는 두 반복자 간의 거리를 계산해 주는 함수이다.
+
+*/
+
+int main() {
+	set<int> v{ 1,2,3,4,5 };
+
+	int d = distance( v.begin(), v.end() );
+	cout << d << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May 30 10:55:25 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+반복자는 포인터를 일반화함으로써 c++ 프로그램에서 서로 다른 데이터구조를
+이용하더라도 일관적인 방법으로 프로그램 작업을 할 수 있도록 한다.
+
+알고리즘 함수 distance는 두 반복자 간의 거리를 계산해 주는 함수이다.
+
+*/
+
+template<class Iter>
+int dist( Iter b, Iter e ) {
+	int cnt = 0;
+	while ( b != e ) {
+		cnt++;
+		++b;
+	}
+	return cnt;
+}
+
+int main() {
+	set<int> v{ 1,2,3,4,5 };
+
+	int d = dist( v.begin(), v.end() );
+	cout << d << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May 30 11:17:06 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+반복자는 포인터를 일반화함으로써 c++ 프로그램에서 서로 다른 데이터구조를
+이용하더라도 일관적인 방법으로 프로그램 작업을 할 수 있도록 한다.
+
+알고리즘 함수 distance는 두 반복자 간의 거리를 계산해 주는 함수이다.
+
+알고리즘 함수 입장에서는
+전달되는 beg, end 반복자가
+reachable - beg에서 ++ 연산자로 end에 도달하여야 함을 의미
+valid range - reachable한 반복자의 쌍
+dereferenceable - 반복자에 *연산으로 값에 access 가능함을 의미
+mutable - 반복자가 가리키는 위치에 값을 쓸 수 있음을 의미
+*/
+
+template<class Iter>
+int dist( Iter b, Iter e ) {
+	// 전달된 인자로부터 그 인자가 어떤 속성을 갖는지 판단할 수 있다.
+
+	int cnt = 0;
+	while ( b != e ) {
+		cnt++;
+		++b;
+	}
+	return cnt;
+}
+
+class Test {
+public:
+	void operator++() { cout << "인자없는 함수" << endl; }
+	void operator++( int ) { cout << "인자있는 함수" << endl; }
+};
+
+int main() {
+	set<int> v{ 1,2,3,4,5 };
+
+	int d = dist( v.begin(), v.end() );
+	// vector는 되는데 아래 문장은 안된다. 왜?
+	// int d = dist( v.begin(), v.end() );
+	cout << d << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May 30 11:52:35 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+반복자는 포인터를 일반화함으로써 c++ 프로그램에서 서로 다른 데이터구조를
+이용하더라도 일관적인 방법으로 프로그램 작업을 할 수 있도록 한다.
+
+알고리즘 함수 distance는 두 반복자 간의 거리를 계산해 주는 함수이다.
+
+알고리즘 함수 입장에서는
+전달되는 beg, end 반복자가
+reachable - beg에서 ++ 연산자로 end에 도달하여야 함을 의미
+valid range - reachable한 반복자의 쌍
+dereferenceable - 반복자에 *연산으로 값에 access 가능함을 의미
+mutable - 반복자가 가리키는 위치에 값을 쓸 수 있음을 의미
+
+iterator_traits<Iter>::value_type;
+iterator_traits<Iter>::differece_type;
+iterator_traits<Iter>::pointer;
+iterator_traits<Iter>::reference;
+*/
+
+template<class Iter>
+int dist( Iter b, Iter e ) {
+	// 전달된 인자로부터 그 인자가 어떤 속성을 갖는지 판단할 수 있다.
+	// 반복자로부터 다음 특성을 알아낼 수 있다.
+	//iterator_traits<Iter>::iterator_category;
+	// 이것은 현재 반복자가 어떤 종류인가를 나타낸다.
+	// 반복자의 종류에 따라 거리 계산이 달라져야 한다.
+	// 이것은 다른 함수를 호출하여 해결한다.
+	return dist( b, e, iterator_traits<Iter>::iterator_category() );
+}
+// 벡터인 경우
+template<class Iter>
+int dist( Iter b, Iter e, random_access_iterator_tag ) {
+	cout << "랜덤 억세스 반복자가 인자로 전달되었다" << endl;
+	return e - b;
+}
+
+template<class Iter>
+int dist( Iter b, Iter e, forward_iterator_tag ) {
+	cout << "순방향 반복자가 전달되었다" << endl;
+	int cnt = 0;
+	while ( b != e ) {
+		cnt++;
+		++b;
+	}
+	return cnt;
+}
+
+int main() {
+	vector<int> v{ 1,2,3,4,5 };
+
+	int d = dist( v.end(), v.begin() );
+	// vector는 되는데 아래 문장은 안된다. 왜?
+	// int d = dist( v.begin(), v.end() );
+	cout << d << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Mon May 30 12:08:14 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+반복자는 포인터를 일반화함으로써 c++ 프로그램에서 서로 다른 데이터구조를
+이용하더라도 일관적인 방법으로 프로그램 작업을 할 수 있도록 한다.
+
+알고리즘 함수 distance는 두 반복자 간의 거리를 계산해 주는 함수이다.
+
+알고리즘 함수 입장에서는
+전달되는 beg, end 반복자가
+reachable - beg에서 ++ 연산자로 end에 도달하여야 함을 의미
+valid range - reachable한 반복자의 쌍
+dereferenceable - 반복자에 *연산으로 값에 access 가능함을 의미
+mutable - 반복자가 가리키는 위치에 값을 쓸 수 있음을 의미
+
+iterator_traits<Iter>::value_type;
+iterator_traits<Iter>::differece_type;
+iterator_traits<Iter>::pointer;
+iterator_traits<Iter>::reference;
+*/
+
+template<class Iter>
+int dist( Iter b, Iter e ) {
+	// 전달된 인자로부터 그 인자가 어떤 속성을 갖는지 판단할 수 있다.
+	// 반복자로부터 다음 특성을 알아낼 수 있다.
+	//iterator_traits<Iter>::iterator_category;
+	// 이것은 현재 반복자가 어떤 종류인가를 나타낸다.
+	// 반복자의 종류에 따라 거리 계산이 달라져야 한다.
+	// 이것은 다른 함수를 호출하여 해결한다.
+	return dist( b, e, iterator_traits<Iter>::iterator_category() );
+}
+// 벡터인 경우
+template<class Iter>
+int dist( Iter b, Iter e, random_access_iterator_tag ) {
+	cout << "랜덤 억세스 반복자가 인자로 전달되었다" << endl;
+	return e - b;
+}
+
+template<class Iter>
+int dist( Iter b, Iter e, forward_iterator_tag ) {
+	cout << "순방향 반복자가 전달되었다" << endl;
+	int cnt = 0;
+	while ( b != e ) {
+		cnt++;
+		++b;
+	}
+	return cnt;
+}
+
+// 527쪽
+struct output_iterator_tag {};
+struct input_iterator_tag {};
+
+int main() {
+	vector<int> v{ 1,2,3,4,5 };
+
+	int d = dist( v.end(), v.begin() );
+	// vector는 되는데 아래 문장은 안된다. 왜?
+	// int d = dist( v.begin(), v.end() );
+	cout << d << endl;
+	save();
+}
