@@ -1,0 +1,271 @@
+
+---------------------------------------
+2016년 1학기 STL
+Wed Jun  1 11:04:58 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+
+*/
+
+template<class Bidirectional_Iterator>
+void my_reverse( Bidirectional_Iterator beg, Bidirectional_Iterator end ) {
+	// 전달된 갯수를 세보자
+	iterator_traits<Bidirectional_Iterator>::difference_type n = distance( beg, end );
+	cout << "바꿔야할 원소의 수 - " << n << endl;
+	while ( n > 0 ) {
+		iterator_traits<Bidirectional_Iterator>::value_type tmp = *beg;
+		*beg++ = *--end;
+		*end = tmp;
+		n -= 2;
+	}
+}
+
+int main() {
+	vector<int> v{ 1,2,3,4,5 };
+	my_reverse( v.begin(), v.end() );
+	for ( int d : v )
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Jun  1 11:33:13 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+
+*/
+
+template<class Bidirectional_Iterator>
+void my_reverse( Bidirectional_Iterator beg, Bidirectional_Iterator end ) {
+	// 전달된 갯수를 세보자
+	iterator_traits<Bidirectional_Iterator>::difference_type n = distance( beg, end );
+	cout << "바꿔야할 원소의 수 - " << n << endl;
+	while ( n > 0 ) {
+		iterator_traits<Bidirectional_Iterator>::value_type tmp = *beg;
+		*beg++ = *--end;
+		*end = tmp;
+		n -= 2;
+	}
+}
+
+template <class Fwd>
+void shift_left( Fwd beg, Fwd end ) {
+	auto d = distance( beg, end );
+
+	auto tmp = *beg;
+	for ( int i = 0; i < d - 1; ++i ) {
+		*beg++ = *(beg + 1);
+	}
+	*beg = tmp;
+}
+
+int main() {
+	vector<int> v{ 1,2,3,4,5, 6, 7, 8, 9, 10 };
+
+	shift_left( v.begin(), v.end() );
+
+	for ( int d : v )
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Jun  1 11:37:07 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <forward_list>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+
+*/
+
+template<class Bidirectional_Iterator>
+void my_reverse( Bidirectional_Iterator beg, Bidirectional_Iterator end ) {
+	// 전달된 갯수를 세보자
+	iterator_traits<Bidirectional_Iterator>::difference_type n = distance( beg, end );
+	cout << "바꿔야할 원소의 수 - " << n << endl;
+	while ( n > 0 ) {
+		iterator_traits<Bidirectional_Iterator>::value_type tmp = *beg;
+		*beg++ = *--end;
+		*end = tmp;
+		n -= 2;
+	}
+}
+
+template <class Fwd>
+void shift_left( Fwd beg, Fwd end ) {
+	auto d = distance( beg, end );
+
+	auto tmp = *beg;
+	auto mid = beg;
+	mid++;
+	for ( int i = 0; i < d - 1; ++i ) {
+		*beg++ = *mid++;
+	}
+	*beg = tmp;
+}
+
+int main() {
+	forward_list<int> v{ 1,2,3,4,5, 6, 7, 8, 9, 10 };
+
+	shift_left( v.begin(), v.end() );
+
+	for ( int d : v )
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Jun  1 11:50:53 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <forward_list>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+
+*/
+
+template<class Bidirectional_Iterator>
+void my_reverse( Bidirectional_Iterator beg, Bidirectional_Iterator end ) {
+	// 전달된 갯수를 세보자
+	iterator_traits<Bidirectional_Iterator>::difference_type n = distance( beg, end );
+	cout << "바꿔야할 원소의 수 - " << n << endl;
+	while ( n > 0 ) {
+		iterator_traits<Bidirectional_Iterator>::value_type tmp = *beg;
+		*beg++ = *--end;
+		*end = tmp;
+		n -= 2;
+	}
+}
+
+template <class Fwd>
+void shift_left( Fwd beg, Fwd end ) {
+	auto d = distance( beg, end );
+
+	auto tmp = *beg;
+	auto mid = beg;
+	mid++;
+	for ( int i = 0; i < d - 1; ++i ) {
+		*beg++ = *mid++;
+	}
+	*beg = tmp;
+}
+
+int main() {
+	int v[]{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+	shift_left( begin( v ), end( v ) );
+
+	for ( int d : v )
+		cout << d << " ";
+	cout << endl;
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Jun  1 12:03:28 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <forward_list>
+#include <algorithm>
+#include <iterator>
+#include "save.h"
+
+using namespace std;
+/*
+531쪽 아랫부분과 같이 클래스를 상속받아 만들 수도 있다.
+532쪽에서 실행되는 사용자정의 반복자 클래스를 볼 수 있다.
+
+표준문서의 예
+사용자가 자신이 만든 이진트리를 순회할 수 있는 BinaryTreeIterator를
+정의한다고 해보자.
+*/
+
+int main() {
+	/*
+	나만의 반복자를 만들고 싶다. 어떻게 하면 되나?
+	1. iterator_traits 구조를 위한 필수 다섯가지 자룔형을 제공한다.
+	2. iterator_traits 구조에 대한 (부분) 특수화를 제공한다.
+	*/
+
+	save();
+}
+---------------------------------------
+2016년 1학기 STL
+Wed Jun  1 12:12:16 2016
+---------------------------------------
+
+//---------------------------------------------------------------------------
+// 2016년 05월 30일
+//
+//---------------------------------------------------------------------------
+#include <iostream>
+#include <set>
+#include "save.h"
+
+using namespace std;
+
+class Game {
+	int level{ 19 };
+public:
+	Game( int n ) : level( n ) {}
+	bool operator< ( const Game& other ) const {
+		return level < other.level;
+	}
+};
+
+int main() {
+	set<Game> s;
+	s.insert( { 1, 10, 5, 3, 19 } );
+	save();
+}

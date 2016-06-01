@@ -3,21 +3,22 @@
 //
 //---------------------------------------------------------------------------
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iterator>
+#include <set>
 #include "save.h"
 
 using namespace std;
-/*
 
-*/
+class Game {
+	int level{ 19 };
+public:
+	Game( int n ) : level( n ) {}
+	bool operator< ( const Game& other ) const {
+		return level < other.level;
+	}
+};
 
 int main() {
-	vector<int> v{ 1,2,3,4,5 };
-	reverse( v.begin(), v.end() );
-	for ( int d : v )
-		cout << d << " ";
-	cout << endl;
+	set<Game> s;
+	s.insert( { 1, 10, 5, 3, 19 } );
 	//save();
 }
