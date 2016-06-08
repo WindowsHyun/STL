@@ -24,7 +24,7 @@ void save() {
 
 	// 출력 파일을 연다.
 	//ofstream out("Build Data/C++Class 복습과 이동의 이해(0321).txt", ios::app);
-	ofstream out( "Build Data/20160601.txt", ios::app );
+	ofstream out( "Build Data/20160608.txt", ios::app );
 	out << "" << endl;
 	out << "---------------------------------------" << endl;
 	out << "2016년 1학기 STL" << endl;
