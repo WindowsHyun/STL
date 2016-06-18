@@ -39,6 +39,9 @@
     <ClCompile Include="1년전 기말고사.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="16년 기말고사.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="save.h">
